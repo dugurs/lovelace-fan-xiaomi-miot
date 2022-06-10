@@ -1,0 +1,1 @@
+# lovelace-fan-xiaomi-miot
