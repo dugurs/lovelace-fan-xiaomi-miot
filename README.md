@@ -2,12 +2,13 @@
 ## for Xiaomi BPLDS05DM ﻿(dmaker.fan.p220)
 
  샤오미 미지아 선풍기 BPLDS05DM (dmaker.fan.p220) 전용이고<br>
- Xiaomi Miot Auto 로 구성한 것에 한해 작동합니다.
+ Xiaomi Miot Auto (https://github.com/al-one/hass-xiaomi-miot) 로 구성한 것에 한해 작동합니다.
 
 
 
 ## 설치
-
+HACS > fontend > Custom repositories add > `dugurs/lovelace-fan-xiaomi-miot`<br>
+HACS > fontend > ➕ EXPLORE & DOWNLOAD REPOSITORIES > `fan-xiaomi-miot` > DOWNLOAD THIS REPOSITORY
 
 
 ## 사용
@@ -19,10 +20,11 @@ entity: fan.dmaker_p220_72de_fan
 ```
 ![image](https://user-images.githubusercontent.com/41262994/173026796-56a217eb-b1ab-4bde-9178-920794e66428.png)
 
+옵션값으로 hide_title: true 를 추가하면 상단 타이틀을 숨길수 있습니다.<br>
 
 
 ## card-mod
-옵션값으로 hide_title: true 를 추가하면 상단 타이틀을 숨길수 있습니다.<br>
+https://github.com/thomasloven/lovelace-card-mod<br>
 card_mod를 이용한 색상 변수를 사용할수 있습니다.
 ```
 type: custom:fanxiaomimiot-card
@@ -37,7 +39,7 @@ card_mod:
     }
 ```
 
-아래는 card_mod style 기본 값입니다.
+아래는 card_mod style 기본 값입니다.<br>
 필요한것만 넣어 수정 해주시면 됩니다.
 ```
 card_mod:
