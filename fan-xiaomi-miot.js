@@ -274,11 +274,20 @@ class fanXiaomiMiotCard extends LitElement {
     if (typeof btn.label == 'undefined') {
       return '';
     }
-    if (typeof this.btnskey[btn.label] == 'undefined') {
-      return state.attributes[btn.label];
-    } else {
+    let i;
+    if (typeof this.btnskey[btn.label] != 'undefined') {
       btn = this.btns[this.btnskey[btn['label']]];
-      return this.setState(state, btn);
+      if (typeof btn.value == 'boolean') {
+        i = state.attributes[btn.prop] ? 1 : 0;
+        return btn.state[i];
+      } else if (typeof btn.state == 'object') {
+        i = btn.value.indexOf(state.attributes[btn.prop]);
+        return btn.state[i];
+      } else {
+        return state.attributes[btn.prop];
+      }
+    } else {
+      return state.attributes[btn.label];
     }
   }
   _toggle(type, state, btn) {
@@ -343,16 +352,16 @@ class fanXiaomiMiotCard extends LitElement {
       :host {
       }
       ha-card {
-        background: var(--card-background, var(--card-background-color, white) );
-        border-radius: var(--card-border-radius, 4px);
-        box-shadow: var(--card-box-shadow, 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12) );
-        color: var(--card-primary-text-color, --primary-text-color);
-        padding: var(--card-padding, 10px);
+        background: var( --ha-card-background, var(--card-background-color, white) );
+        border-radius: var(--ha-card-border-radius, 4px);
+        box-shadow: var( --ha-card-box-shadow, 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12) );
+        color: var(--primary-text-color);
+        padding: 10px;
         display: grid;
-        grid-template-rows: var(--card--grid-rows, min-content, 30px, 30px, 30px);
-        grid-template-columns: var(--card--grid-columns, repeat(5, 1fr));
-        grid-template-areas: var(--card--grid-areas, "n n n n n" "p s hs ha t" "o m vs va h" "ao aot af aft a");
-        gap: var(--card-grid-gap, 6px 6px);
+        grid-template-rows: min-content, 30px, 30px;
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-areas: "n n n n n" "p s hs ha t" "o m vs va h" "ao aot af aft a";
+        gap: 6px 6px;
         align-items: center;
         place-content: space-between;
       }
@@ -367,10 +376,10 @@ class fanXiaomiMiotCard extends LitElement {
         height: 100%;
         min-height: 40px;
         cursor: pointer;
-        transition: all 0.4s;
+        transition: all 0.2s;
       }
       ha-card>div:active {
-        background-color: var(--box-active-background-color, rgba(127,127,0, 0.3));
+        background-color: var(--box-active-background-color, rgba(127,127,0, 0.4));
       }
       ha-card>div.active {
         background-color: var(--box-active-background-color, rgba(127,127,0, 0.3));
@@ -391,7 +400,7 @@ class fanXiaomiMiotCard extends LitElement {
       .vswing_angle { grid-area: va; }
       .swing_down {   grid-area: va; position: relative; width: 50%; }
       .swing_up {     grid-area: va; position: relative; width: 50%; left: 50%; }
-      .auto_on {      grid-area: ao; }
+      .auto_on { grid-area: ao; }
       .auto_on_temp_minus {grid-area: aot; position: relative; width: 50%; }
       .auto_on_temp_plus  {grid-area: aot; position: relative; width: 50%; left: 50%; }
       .auto_off {     grid-area: af; }
@@ -433,4 +442,3 @@ class fanXiaomiMiotCard extends LitElement {
   }
 }
 customElements.define("fanXiaomiMiot-card", fanXiaomiMiotCard);
-console.info(`%cFAN-XIAOMI-MIOT v0.0.4 IS INSTALLED`,"color: green; font-weight: bold","");
