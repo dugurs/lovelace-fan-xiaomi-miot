@@ -1,9 +1,8 @@
 # lovelace-fan-xiaomi-miot
 ## for Xiaomi BPLDS05DM ﻿(dmaker.fan.p220)
 
- 샤오미 미지아 선풍기 BPLDS05DM (dmaker.fan.p220) 전용이고<br>
+ 샤오미 미지아 선풍기 BPLDS05DM (dmaker.fan.p220, dmaker.fan.p5) 전용이고<br>
  Xiaomi Miot Auto (https://github.com/al-one/hass-xiaomi-miot) 로 구성한 것에 한해 작동합니다.
-
 
 
 ## 설치
@@ -20,7 +19,13 @@ entity: fan.dmaker_p220_72de_fan
 ```
 ![image](https://user-images.githubusercontent.com/41262994/173026796-56a217eb-b1ab-4bde-9178-920794e66428.png)
 
-옵션값으로 hide_title: true 를 추가하면 상단 타이틀을 숨길수 있습니다.<br>
+## 옵션
+| option | 설정값(예)        | 기본값       | 내용              |
+| :-----: | :---------: | :---------: | ----------------------- |
+| hide_title | true |   | 상단 타이틀을 숨길수 있습니다. |
+| percentage_step | 20 | 25 | 속도조절 스탭을 설정합니다. |
+| off_delay_time | [0,30,60,120] | [0,30,60,120,180,240,300,360,420,480] |  off 타이머 단계를 원하는 시간(분)으로 설정할수 있습니다. |
+| model | dmaker_p5 | dmaker_p220 | 선품기 모델을 설정 합니다. |
 
 
 ## card-mod
@@ -89,7 +94,8 @@ card_mod:
 .title {        grid-area: n; }
 .power {        grid-area: p; }
 .mode {         grid-area: m; }
-.speed {        grid-area: s; }
+.speed_down {   grid-area: s; }
+.speed_up {     grid-area: s; }
 .off_delay_time { grid-area: o; }
 .hswing {       grid-area: hs; }
 .hswing_angle { grid-area: ha; }
