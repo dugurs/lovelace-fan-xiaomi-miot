@@ -17,7 +17,9 @@ entity는 사용자 구성에 맞게 수정 해주셔야 합니다.
 type: custom:fanxiaomimiot-card
 entity: fan.dmaker_p220_72de_fan
 ```
-![image](https://user-images.githubusercontent.com/41262994/173026796-56a217eb-b1ab-4bde-9178-920794e66428.png)
+![image](https://user-images.githubusercontent.com/41262994/173026796-56a217eb-b1ab-4bde-9178-920794e66428.png)<br>
+![image2](https://user-images.githubusercontent.com/41262994/174616733-31410f29-41a9-4aa7-99f2-c2c86dbd27d6.png)
+
 
 ## 옵션
 | option | 설정값(예)        | 기본값       | 내용              |
