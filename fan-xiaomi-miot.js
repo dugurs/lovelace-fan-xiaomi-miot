@@ -17,7 +17,7 @@ class fanXiaomiMiotCard extends LitElement {
 
   async connectedCallback() {
     super.connectedCallback()
-    const state = this.hass.states[this.config.entity];
+    // const state = this.hass.states[this.config.entity];
     await this.setBtns();
   }
 
