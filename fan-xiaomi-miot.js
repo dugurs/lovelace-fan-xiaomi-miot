@@ -64,6 +64,14 @@ class fanXiaomiMiotCard extends LitElement {
           icon: 'mdi:chevron-up',
         },
         {
+          name: 'speed_slider',
+          prop: 'dm_service.speed_level',
+          value: 1,
+          min: 1,
+          max: 100,
+          step: 1
+        },
+        {
           name: 'mode',
           prop: 'fan.mode',
           value: [0,1,2,3],
@@ -242,6 +250,14 @@ class fanXiaomiMiotCard extends LitElement {
           icon: 'mdi:chevron-up',
         },
         {
+          name: 'speed_slider',
+          prop: 'fan.fan_level',
+          value: 1,
+          min: 1,
+          max: 100,
+          step: 1
+        },
+        {
           name: 'mode',
           prop: 'fan.mode',
           value: [0,1],
@@ -332,6 +348,14 @@ class fanXiaomiMiotCard extends LitElement {
   }
 
   setUi(state, btn) {
+    if (btn.name == 'speed_slider') {
+      return this.setSpeedSlider(state, btn);
+    } else {
+      return this.setBtn(state, btn);
+    }
+  }
+
+  setBtn(state, btn) {
     if (btn.hide == true) {
       return;
     }
@@ -366,6 +390,22 @@ class fanXiaomiMiotCard extends LitElement {
     } else if (btn.name == 'swing_up' || btn.name == 'swing_down') {
       box.classList.add((state.attributes['fan.vertical_swing']) ? 'hide' : 'show');
     }
+    return box;
+  }
+
+  setSpeedSlider(state, btn) {
+    const box = document.createElement('div');
+    box.className = btn.name;
+    const val = this.setState(state, btn);
+    box.innerHTML = `
+      <input type="range" min="1" max="100" step="1" value="${val}">
+    `;
+    const inp = box.querySelector("input[type=range]");
+    inp.addEventListener("change", () => {
+      // alert(this.value);
+      // console.log('slider set value: ',inp.value);
+      this._toggle('click', state, btn, inp.value);
+    });
     return box;
   }
 
@@ -404,7 +444,7 @@ class fanXiaomiMiotCard extends LitElement {
       return this.setState(state, btn);
     }
   }
-  _toggle(type, state, btn) {
+  _toggle(type, state, btn, value) {
     // if (state.state == 'off' && btn.name != 'power') {
     //   return;
     // }
@@ -417,7 +457,9 @@ class fanXiaomiMiotCard extends LitElement {
 
     let _field = btn.prop;
     let _value = '';
-    if (typeof btn.value == 'boolean') {
+    if (typeof value != 'undefined') {
+      _value = value;
+    } else if (typeof btn.value == 'boolean') {
       _value = !state.attributes[btn.prop];
     } else if (typeof btn.value == 'number') {
       if (typeof btn.step == 'undefined' || btn.step == 0) {
@@ -522,8 +564,9 @@ class fanXiaomiMiotCard extends LitElement {
       .power {        grid-area: p; }
       .mode {         grid-area: m; }
       .speed {        grid-area: s; }
-      .speed_down {        grid-area: s; position: relative; width: 50%; }
-      .speed_up {        grid-area: s; position: relative; width: 50%; left: 50%;}
+      .speed_down {   grid-area: s; position: relative; width: 50%; }
+      .speed_up {     grid-area: s; position: relative; width: 50%; left: 50%;}
+      .speed_slider { grid-area: n; }
       .off_delay_time { grid-area: o; }
       .hswing {       grid-area: hs; }
       .hswing_angle { grid-area: ha; }
@@ -579,8 +622,88 @@ class fanXiaomiMiotCard extends LitElement {
         font-size: 14px;
         padding: 8px;
       }
+
+
+      input[type="range"] { 
+        margin: auto;
+        -webkit-appearance: none;
+        appearance: none;
+        background: transparent;
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+        width: 100%;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+      
+      input[type="range"]::-webkit-slider-runnable-track {
+        --background: #ddd;
+      }
+      
+      /*
+      * 1. Set to 0 width and remove border for a slider without a thumb
+      * 2. Shadow is negative the full width of the input and has a spread 
+      *    of the width of the input.
+      */
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 2%; /* 1 */
+        height: 100%;
+        background: var(--box-active-background-color, rgba(127,127,0, 0.3));
+        box-shadow: -2000px 0 0 2000px var(--box-active-background-color, rgba(127,127,0, 0.3)); /* 2 */
+        border: 0; /* 1 */
+      }
+      
+      input[type="range"]::-moz-range-track {
+        height: 0;
+        --background: #ddd;
+      }
+      
+      input[type="range"]::-moz-range-thumb {
+        background: var(--box-active-background-color, rgba(127,127,0, 0.3));
+        width: 2%; /* 1 */
+        height: 100%;
+        border: 0;
+        border-radius: 0 !important;
+        box-shadow: -2000px 0 0 2000px var(--box-active-background-color, rgba(127,127,0, 0.3));
+        box-sizing: border-box;
+      }
+      
+      input[type="range"]::-ms-fill-lower { 
+        background: var(--box-active-background-color, rgba(127,127,0, 0.3));
+      }
+      
+      input[type="range"]::-ms-thumb { 
+        --background: #fff;
+        border: 0;
+        width: 2%; /* 1 */
+        height: 100%;
+        box-sizing: border-box;
+      }
+      
+      input[type="range"]::-ms-ticks-after { 
+        display: none; 
+      }
+      
+      input[type="range"]::-ms-ticks-before { 
+        display: none; 
+      }
+      
+      input[type="range"]::-ms-track { 
+        --background: #ddd;
+        color: transparent;
+        height: 100%;
+        border: none;
+      }
+      
+      input[type="range"]::-ms-tooltip { 
+        display: none;
+      }
+
+
     `;
   }
 }
 customElements.define("fanXiaomiMiot-card", fanXiaomiMiotCard);
-console.info(`%cFAN-XIAOMI-MIOT v0.0.5 IS INSTALLED`,"color: green; font-weight: bold","");
+console.info(`%cFAN-XIAOMI-MIOT v0.0.6 IS INSTALLED`,"color: green; font-weight: bold","");
