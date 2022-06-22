@@ -267,7 +267,7 @@ class fanXiaomiMiotCard extends LitElement {
         {
           name: 'off_delay_time',
           prop: 'off_delay_time',
-          value: this.config.off_delay_time ?? [0,30,60,120,180,240,300,360],
+          value: this.config.off_delay_time ?? [0,30,60,120,180,240,300,360,420,480],
           icon: 'mdi:camera-timer'
         },
         {
@@ -396,15 +396,19 @@ class fanXiaomiMiotCard extends LitElement {
   setSpeedSlider(state, btn) {
     const box = document.createElement('div');
     box.className = btn.name;
+    const min = btn.min ?? 1;
+    const max = btn.max ?? 100;
+    const step = btn.step ?? 1;
     const val = this.setState(state, btn);
     box.innerHTML = `
-      <input type="range" min="1" max="100" step="1" value="${val}">
+      <input type="range" min="${min}" max="${max}" step="${step}" value="${val}">
     `;
     const inp = box.querySelector("input[type=range]");
+    
     inp.addEventListener("change", () => {
       // alert(this.value);
       // console.log('slider set value: ',inp.value);
-      this._toggle('click', state, btn, inp.value);
+      this._toggle('click', state, btn, Number(inp.value));
     });
     return box;
   }
@@ -485,7 +489,7 @@ class fanXiaomiMiotCard extends LitElement {
     } else {
       _value = btn.value;
     }
-    // console.log(type, btn.name, _field, _value);
+    // console.log(type, btn.name, _field, _value, typeof _value);
     this.hass.callService('xiaomi_miot', "set_property", {
       entity_id: state.entity_id,
       field: _field,
@@ -706,4 +710,4 @@ class fanXiaomiMiotCard extends LitElement {
   }
 }
 customElements.define("fanXiaomiMiot-card", fanXiaomiMiotCard);
-console.info(`%cFAN-XIAOMI-MIOT v0.0.6 IS INSTALLED`,"color: green; font-weight: bold","");
+console.info(`%cFAN-XIAOMI-MIOT v0.0.7 IS INSTALLED`,"color: green; font-weight: bold","");
