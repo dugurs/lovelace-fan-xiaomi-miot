@@ -100,6 +100,7 @@ card_mod:
 .mode {         grid-area: m; }
 .speed_down {   grid-area: s; }
 .speed_up {     grid-area: s; }
+.speed_slider { grid-area: n; }
 .off_delay_time { grid-area: o; }
 .hswing {       grid-area: hs; }
 .hswing_angle { grid-area: ha; }
