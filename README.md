@@ -122,3 +122,27 @@ card_mod:
 .alarm {        grid-area: a; }
 .locked {       grid-area: a; }
 ```
+
+
+## card_mod 설정 예..
+```
+type: custom:fanxiaomimiot-card
+entity: fan.dmaker_p5_8433_fan
+model: dmaker_fan_p5
+card_mod:
+  style: |
+    :host {
+      --card--grid-columns: repeat(5, 1fr);
+      --card--grid-areas: "n n n n n" "p hs ha o a";
+    }
+    :host .mode {
+      grid-area: a;
+      position: relative; width: 50%; left: 50%;
+    }
+    .speed_down,
+    .speed_up,
+    .locked {
+      display: none;
+    }
+```
+![card_mod example](https://user-images.githubusercontent.com/41262994/175018180-2801b281-5db1-4cca-bef7-181668b318f7.png)
