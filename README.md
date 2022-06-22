@@ -2,7 +2,8 @@
 ## for Xiaomi BPLDS05DM ﻿(dmaker.fan.p220)
 
  샤오미 미지아 선풍기 BPLDS05DM (dmaker.fan.p220, dmaker.fan.p5) 전용이고<br>
- Xiaomi Miot Auto (https://github.com/al-one/hass-xiaomi-miot) 로 구성한 것에 한해 작동합니다.
+ Xiaomi Miot Auto (https://github.com/al-one/hass-xiaomi-miot) 로 구성한 것에 한해 작동합니다.<br>
+![screenshot](https://user-images.githubusercontent.com/41262994/175013447-350e34b2-5536-4004-98e7-066998bd47ea.jpg)<br>
 
 
 ## 설치
@@ -19,7 +20,7 @@ entity: fan.dmaker_p220_72de_fan
 ```
 ![image](https://user-images.githubusercontent.com/41262994/173026796-56a217eb-b1ab-4bde-9178-920794e66428.png)<br>
 ![dmaker.fan.p220](https://user-images.githubusercontent.com/41262994/174616733-31410f29-41a9-4aa7-99f2-c2c86dbd27d6.png)<br>
-![dmaker.fan.p5](https://user-images.githubusercontent.com/41262994/174618681-d80eeb25-60b0-47b3-82b6-66b94a08f72e.png)
+![dmaker.fan.p5](https://user-images.githubusercontent.com/41262994/174618681-d80eeb25-60b0-47b3-82b6-66b94a08f72e.png)<br>
 
 
 
