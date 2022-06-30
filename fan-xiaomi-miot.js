@@ -5,6 +5,7 @@ import {
   css
 } from "https://unpkg.com/lit-element@2.0.1/lit-element.js?module";
 
+// https://velog.io/@jerrynim_/lit-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0-2n-property
 
 class fanXiaomiMiotCard extends LitElement {
   static get properties() {
@@ -13,39 +14,39 @@ class fanXiaomiMiotCard extends LitElement {
       config: {}
     };
   }
+  
+  btns = {};
+  models = {}
 
+  setConfig(config) {
+    if (!config.entity) {
+      throw new Error("You need to define entity");
+    }
+    this.config = config;
+  }
 
   async connectedCallback() {
     super.connectedCallback()
-    // const state = this.hass.states[this.config.entity];
     await this.setBtns();
   }
-
-  
-  btns = [];
-  btnskey = {};
-  models = {}
 
   async setBtns() {
     
     this.models = {
-      dmaker_fan_p220: [
-        {
-          name: 'power',
+      dmaker_fan_p220: {
+        power : {
           prop: 'fan.on',
           value: false,
           state: ['off', 'on'],
           icon: 'mdi:fan',
           label: 'dm_service.speed_level'
         },
-        // {
-        //   name: 'speed',
+        // speed: {
         //   prop: 'fan.fan_level',
         //   value: [1,2,3,4],
         //   icon: ['mdi:numeric-1-box-outline','mdi:numeric-2-box-outline','mdi:numeric-3-box-outline','mdi:numeric-4-box-outline']
         // },
-        {
-          name: 'speed_down',
+        speed_down: {
           prop: 'dm_service.speed_level',
           value: 1,
           min: 1,
@@ -54,8 +55,7 @@ class fanXiaomiMiotCard extends LitElement {
           icon: 'mdi:chevron-down',
           backward: true
         },
-        {
-          name: 'speed_up',
+        speed_up: {
           prop: 'dm_service.speed_level',
           value: 1,
           min: 1,
@@ -63,119 +63,102 @@ class fanXiaomiMiotCard extends LitElement {
           step: this.config.percentage_step ?? 25,
           icon: 'mdi:chevron-up',
         },
-        {
-          name: 'speed_slider',
+        speed_slider: {
           prop: 'dm_service.speed_level',
           value: 1,
           min: 1,
           max: 100,
           step: 1
         },
-        {
-          name: 'mode',
+        mode: {
           prop: 'fan.mode',
           value: [0,1,2,3],
           state: ['Straight Wind', 'Natural Wind', 'Smart', 'Sleep'],
           icon: ['mdi:weather-windy', 'mdi:leaf', 'mdi:fan-auto', 'mdi:power-sleep']
         },
-        {
-          name: 'off_delay_time',
+        off_delay_time: {
           prop: 'off_delay_time',
           value: this.config.off_delay_time ?? [0,30,60,120,180,240,300,360,420,480],
           icon: 'mdi:camera-timer'
         },
-        {
-          name: 'hswing',
+        hswing: {
           prop: 'fan.horizontal_swing',
           value: false,
           state: ['off', 'on'],
           icon: 'mdi:arrow-left-right'
         },
-        {
-          name: 'hswing_angle',
+        hswing_angle: {
           prop: 'horizontal_swing_included_angle-2-5',
           value: [30,60,90,120,140],
           icon: 'mdi:arrow-left-right',
           // click: 'hswing',
           // dblclick: 'hswing_angle'
         },
-        {
-          name: 'vswing',
+        vswing: {
           prop: 'fan.vertical_swing',
           value: false,
           state: ['off', 'on'],
           icon: 'mdi:arrow-up-down'
         },
-        {
-          name: 'vswing_angle',
+        vswing_angle: {
           prop: 'vertical_swing_included_angle-2-8',
           value: [35,65,95],
           icon: 'mdi:arrow-up-down',
           // click: 'vswing',
           // dblclick: 'vswing_angle'
         },
-        {
-          name: 'swing_down',
+        swing_down: {
           prop: 'dm_service.swing_updown_manual',
           value: 2,
           icon: 'mdi:chevron-down',
         },
-        {
-          name: 'swing_up',
+        swing_up: {
           prop: 'dm_service.swing_updown_manual',
           value: 1,
           icon: 'mdi:chevron-up',
         },
-        {
-          name: 'swing_left',
+        swing_left: {
           prop: 'dm_service.swing_lr_manual',
           value: 1,
           icon: 'mdi:chevron-left',
         },
-        {
-          name: 'swing_right',
+        swing_right: {
           prop: 'dm_service.swing_lr_manual',
           value: 2,
           icon: 'mdi:chevron-right',
         },
-        {
-          name: 'temperature',
+        temperature: {
           prop: 'temperature-9-1',
           value: 1,
           icon: 'mdi:thermometer',
           click: ''
         },
-        {
-          name: 'humidity',
+        humidity: {
           prop: 'relative_humidity-9-2',
           value: 1,
           icon: 'mdi:water-percent',
           click: ''
         },
-        {
-          name: 'alarm',
+        alarm: {
           prop: 'alarm',
           value: false,
           state: ['off', 'on'],
           icon: ['mdi:volume-off','mdi:volume-high']
         },
-        {
-          name: 'locked',
+        locked: {
           prop: 'physical_controls_locked',
           value: false,
           state: ['off', 'on'],
           icon: ['mdi:lock-open-variant','mdi:lock-open']
         },
-        {
-          name: 'auto_on',
+        auto_on: {
           prop: 'dm_service.on',
           value: false,
           state: ['off', 'on'],
           icon: 'mdi:fan-auto',
           label: 'auto_on_temp_minus'
         },
-        {
-          name: 'auto_on_temp_minus',
+        auto_on_temp_minus: {
           prop: 'dm_service.temperature',
           value: 15,
           min: 15,
@@ -184,8 +167,7 @@ class fanXiaomiMiotCard extends LitElement {
           icon: 'mdi:chevron-down',
           backward: true
         },
-        {
-          name: 'auto_on_temp_plus',
+        auto_on_temp_plus: {
           prop: 'dm_service.temperature',
           value: 15,
           min: 15,
@@ -193,16 +175,14 @@ class fanXiaomiMiotCard extends LitElement {
           step: 1,
           icon: 'mdi:chevron-up',
         },
-        {
-          name: 'auto_off',
+        auto_off: {
           prop: 'dm_service.off',
           value: false,
           state: ['off', 'on'],
           icon: 'mdi:fan-off',
           label: 'auto_off_temp_minus'
         },
-        {
-          name: 'auto_off_temp_minus',
+        auto_off_temp_minus: {
           prop: 'dm_service-8.temperature',
           value: 14,
           min: 14,
@@ -211,8 +191,7 @@ class fanXiaomiMiotCard extends LitElement {
           icon: 'mdi:chevron-down',
           backward: true
         },
-        {
-          name: 'auto_off_temp_plus',
+        auto_off_temp_plus: {
           prop: 'dm_service-8.temperature',
           value: 14,
           min: 14,
@@ -220,19 +199,17 @@ class fanXiaomiMiotCard extends LitElement {
           step: 1,
           icon: 'mdi:chevron-up',
         },
-      ],
-      dmaker_fan_p5: [
-        {
-          name: 'power',
+      },
+      dmaker_fan_p5: {
+        power: {
           prop: 'fan.on',
           value: false,
           state: ['off', 'on'],
           icon: 'mdi:fan',
-          label: 'fan.fan_level'
+          label: 'fan.speed_level'
         },
-        {
-          name: 'speed_down',
-          prop: 'fan.fan_level',
+        speed_down: {
+          prop: 'fan.speed_level',
           value: 1,
           min: 1,
           max: 100,
@@ -240,96 +217,87 @@ class fanXiaomiMiotCard extends LitElement {
           icon: 'mdi:chevron-down',
           backward: true
         },
-        {
-          name: 'speed_up',
-          prop: 'fan.fan_level',
+        speed_up: {
+          prop: 'fan.speed_level',
           value: 1,
           min: 1,
           max: 100,
           step: this.config.percentage_step ?? 25,
           icon: 'mdi:chevron-up',
         },
-        {
-          name: 'speed_slider',
-          prop: 'fan.fan_level',
+        speed_slider: {
+          prop: 'fan.speed_level',
           value: 1,
           min: 1,
           max: 100,
           step: 1
         },
-        {
-          name: 'mode',
+        mode: {
           prop: 'fan.mode',
           value: [0,1],
           state: ['Natural Wind', 'Straight Wind'],
           icon: ['mdi:leaf','mdi:weather-windy']
         },
-        {
-          name: 'off_delay_time',
+        off_delay_time: {
           prop: 'off_delay_time',
           value: this.config.off_delay_time ?? [0,30,60,120,180,240,300,360,420,480],
           icon: 'mdi:camera-timer'
         },
-        {
-          name: 'hswing',
+        hswing: {
           prop: 'fan.horizontal_swing',
           value: false,
           state: ['off', 'on'],
           icon: 'mdi:arrow-left-right'
         },
-        {
-          name: 'hswing_angle',
+        hswing_angle: {
           prop: 'fan.horizontal_angle',
           value: [30,60,90,120,140],
           icon: 'mdi:arrow-left-right',
         },
-        {
-          name: 'swing_left',
-          prop: 'dm_service.swing_lr_manual',
-          value: 1,
+        swing_left: {
+          prop: {
+            siid: 2,
+            piid: 7
+          },
+          value: -7,
           icon: 'mdi:chevron-left',
         },
-        {
-          name: 'swing_right',
-          prop: 'dm_service.swing_lr_manual',
-          value: 2,
+        swing_right: {
+          prop: {
+            siid: 2,
+            piid: 7
+          },
+          value: 7,
           icon: 'mdi:chevron-right',
         },
-        {
-          name: 'alarm',
+        alarm: {
           prop: 'alarm',
           value: false,
           state: ['off', 'on'],
           icon: ['mdi:volume-off','mdi:volume-high']
         },
-        {
-          name: 'locked',
+        locked: {
           prop: 'physical_controls_locked',
           value: false,
           state: ['off', 'on'],
           icon: ['mdi:lock-open-variant','mdi:lock-open']
         },
-      ]
+      }
     }
 
     const model = this.config.model ?? 'dmaker_fan_p220';
     this.btns = this.models[model];
   
-    for (let key in this.btns) {
-      this.btnskey[this.btns[key].name] = Number(key);
-    }
   }
 
-  
 
 
   render() {
-    const entityId = this.config.entity;
-    const state = this.hass.states[entityId];
+    const state = this.hass.states[this.config.entity];
     const stateStr = state ? state.state : 'unavailable';
-    const model = this.config.model ?? 'p220';
+    const model = this.config.model ?? 'dmaker_fan_p220';
     if (stateStr == 'unavailable') {
-      return html`<div class="not-found">Entity ${entityId} not found.</div>`;
+      return html`<div class="not-found">Entity ${this.config.entity} not found.</div>`;
     } else {
       const hideTitle = this.config?.hide_title ? 'hide' : '';
       return html`
@@ -338,7 +306,8 @@ class fanXiaomiMiotCard extends LitElement {
             ${state.attributes.friendly_name}
           </div>
 
-          ${this.btns.map(btn => {
+          ${Object.entries(this.btns).map(([key,btn]) => {
+            btn.name = key;
             return this.setUi(state, btn);
           })}
 
@@ -346,6 +315,7 @@ class fanXiaomiMiotCard extends LitElement {
       `;
     }
   }
+
 
   setUi(state, btn) {
     if (btn.name == 'speed_slider') {
@@ -371,9 +341,9 @@ class fanXiaomiMiotCard extends LitElement {
     // box.ondblclick = () => {
     //   this._toggle('dblclick', state, btn);
     // }
-    box.onclick = () => {
+    box.addEventListener("click", () => {
       this._toggle('click', state, btn);
-    }
+    });
     if (typeof btn.value == 'boolean') {
       if (state.attributes[btn.prop]) {
         box.classList.add('active');
@@ -441,10 +411,10 @@ class fanXiaomiMiotCard extends LitElement {
     if (typeof btn.label == 'undefined') {
       return '';
     }
-    if (typeof this.btnskey[btn.label] == 'undefined') {
+    if (typeof this.btns[btn.label] == 'undefined') {
       return state.attributes[btn.label];
     } else {
-      btn = this.btns[this.btnskey[btn['label']]];
+      btn = this.btns[btn['label']];
       return this.setState(state, btn);
     }
   }
@@ -456,7 +426,7 @@ class fanXiaomiMiotCard extends LitElement {
       return;
     }
     if (typeof btn[type] != 'undefined') {
-      btn = this.btns[this.btnskey[btn[type]]];
+      btn = this.btns[btn[type]];
     }
 
     let _field = btn.prop;
@@ -490,17 +460,25 @@ class fanXiaomiMiotCard extends LitElement {
       _value = btn.value;
     }
     // console.log(type, btn.name, _field, _value, typeof _value);
-    this.hass.callService('xiaomi_miot', "set_property", {
-      entity_id: state.entity_id,
-      field: _field,
-      value: _value
-    });
-  }
-  setConfig(config) {
-    if (!config.entity) {
-      throw new Error("You need to define entity");
+    if (typeof btn.prop == 'object') {
+      this.hass.callService('xiaomi_miot', "set_miot_property", {
+        entity_id: state.entity_id,
+        siid: btn.prop.siid,
+        piid: btn.prop.piid,
+        value: _value
+      });
+    } else {
+      this.hass.callService('xiaomi_miot', "set_property", {
+        entity_id: state.entity_id,
+        field: _field,
+        value: _value
+      });
     }
-    this.config = config;
+
+    // 속도 조절시 전원이 꺼져있으면 켜기
+    if (btn.name == 'speed_slider' && state.attributes[this.btns.power.prop] == false) {
+      this._toggle('click', state, this.btns.power, true);
+    }
   }
 
   // The height of your card. Home Assistant uses this to automatically
@@ -520,10 +498,10 @@ class fanXiaomiMiotCard extends LitElement {
         }
       }
       ha-card {
-        background: var(--card-background, var(--card-background-color, white) );
-        border-radius: var(--card-border-radius, 4px);
-        box-shadow: var(--card-box-shadow, 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12) );
-        color: var(--card-primary-text-color, --primary-text-color);
+        background: var(--ha-card-background, var(--card-background-color, white) );
+        border-radius: var(--ha-card-border-radius, 4px);
+        box-shadow: var( --ha-card-box-shadow, 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12) );
+        color: var(--primary-text-color);
         padding: var(--card-padding, 10px);
         display: grid;
         grid-template-rows: var(--card--grid-rows, min-content, 30px, 30px, 30px);
@@ -542,7 +520,9 @@ class fanXiaomiMiotCard extends LitElement {
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: var(--box-background-color, rgba(125,125,125,0.1));
+        background-color: var(--box-background-color, var(--secondary-background-color));
+        color: var(--secondary-text-color);
+        --color: var(--primary-text-color);
         border-radius: 5px;
         border: none;
         width: 100%;
@@ -550,27 +530,40 @@ class fanXiaomiMiotCard extends LitElement {
         min-height: 40px;
         cursor: pointer;
         transition: all 0.4s;
+        position: relative;
       }
-      ha-card>div:active {
-        background-color: var(--box-active-background-color, rgba(127,127,0, 0.3));
-      }
+      ha-card>div:active,
       ha-card>div.active {
-        background-color: var(--box-active-background-color, rgba(127,127,0, 0.3));
+        background: var(--box-active-background-color, var(--primary-color));
+        color: var(--box-active-color, var(--text-primary-color));
       }
+      ha-card>div:active.speed_slider { 
+        background: none !important;
+      }
+      /*ha-card>div.active::before {
+          content: "";
+          position: absolute;
+          top: 0px;
+          right: 0px;
+          bottom: 0px;
+          left: 0px;
+          background-color: var(--paper-item-icon-active-color, #fdd835)
+          opacity: 0.6;
+      }*/
       ha-card>div.active .icon-waper {
         color: var(--icon-active-color, --primary-text-color);
       }
       ha-card>div.power.active .icon-waper {
-        ---animation: rotate_image 1.5s linear infinite;
-        ---transform-origin: 50% 50%;
+        --animation: rotate_image 1.5s linear infinite;
+        --transform-origin: 50% 50%;
       }
-      .title {        grid-area: n; }
+      .title {        grid-area: n; color: var(--primary-text-color) }
       .power {        grid-area: p; }
       .mode {         grid-area: m; }
       .speed {        grid-area: s; }
       .speed_down {   grid-area: s; position: relative; width: 50%; }
       .speed_up {     grid-area: s; position: relative; width: 50%; left: 50%;}
-      .speed_slider { grid-area: n; }
+      .speed_slider { grid-area: n; opacity: 0.5; }
       .off_delay_time { grid-area: o; }
       .hswing {       grid-area: hs; }
       .hswing_angle { grid-area: ha; }
@@ -654,8 +647,8 @@ class fanXiaomiMiotCard extends LitElement {
         -webkit-appearance: none;
         width: 2%; /* 1 */
         height: 100%;
-        background: var(--box-active-background-color, rgba(127,127,0, 0.3));
-        box-shadow: -2000px 0 0 2000px var(--box-active-background-color, rgba(127,127,0, 0.3)); /* 2 */
+        background: var(--box-active-background-color, var(--primary-color));
+        box-shadow: -2000px 0 0 2000px var(--box-active-background-color, var(--primary-color)); /* 2 */
         border: 0; /* 1 */
       }
       
@@ -665,17 +658,17 @@ class fanXiaomiMiotCard extends LitElement {
       }
       
       input[type="range"]::-moz-range-thumb {
-        background: var(--box-active-background-color, rgba(127,127,0, 0.3));
+        background: var(--box-active-background-color, var(--primary-color));
         width: 2%; /* 1 */
         height: 100%;
         border: 0;
         border-radius: 0 !important;
-        box-shadow: -2000px 0 0 2000px var(--box-active-background-color, rgba(127,127,0, 0.3));
+        box-shadow: -2000px 0 0 2000px var(--box-active-background-color, var(--primary-color));
         box-sizing: border-box;
       }
       
       input[type="range"]::-ms-fill-lower { 
-        background: var(--box-active-background-color, rgba(127,127,0, 0.3));
+        background: var(--box-active-background-color, var(--primary-color));
       }
       
       input[type="range"]::-ms-thumb { 
@@ -704,10 +697,62 @@ class fanXiaomiMiotCard extends LitElement {
       input[type="range"]::-ms-tooltip { 
         display: none;
       }
-
-
     `;
   }
+
+  // static getConfigElement() {
+  //   return document.createElement("fanxiaomimiot-card-editor");
+  // }
+  // static getStubConfig() {
+  //   return { entity: "sun.sun" }
+  // }
+
 }
-customElements.define("fanXiaomiMiot-card", fanXiaomiMiotCard);
-console.info(`%cFAN-XIAOMI-MIOT v0.0.7 IS INSTALLED`,"color: green; font-weight: bold","");
+customElements.define("fanxiaomimiot-card", fanXiaomiMiotCard);
+console.info(`%cFAN-XIAOMI-MIOT v0.0.8 IS INSTALLED`,"color: green; font-weight: bold","");
+
+
+// class fanXiaomiMiotCardEditor extends LitElement {
+
+//   setConfig(config) {
+//     this._config = config;
+//   }
+
+//   entityChanged(ev) {
+//     const _config = Object.assign({}, this._config);
+//     _config.entity = ev.target.value;
+//     this._config = _config;
+
+//     const event = new CustomEvent("config-changed", {
+//       detail: { config: _config },
+//       bubbles: true,
+//       composed: true,
+//     });
+//     this.dispatchEvent(event);
+//   }
+
+//   render() {
+//     if (!this.hass || !this._config) {
+//       return html``;
+//     }
+
+//     return html`
+//     Entity:
+//     <input
+//     .value=${this._config.entity}
+//     @focusout=${this.entityChanged}
+//     ></input>
+//     `;
+//   }
+// }
+// customElements.define("fanxiaomimiot-card-editor", fanXiaomiMiotCardEditor);
+
+// window.customCards = window.customCards || [];
+// window.customCards.push({
+//   type: "fanxiaomimiot-card",
+//   name: "fan Xiaomi Miot card",
+//   preview: false, // Optional - defaults to false
+//   description: "A custom card made by me!" // Optional
+// });
+
+// https://gist.github.com/thomasloven/1de8c62d691e754f95b023105fe4b74b
