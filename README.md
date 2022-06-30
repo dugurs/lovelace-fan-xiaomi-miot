@@ -55,8 +55,8 @@ card_mod:
 card_mod:
   style: |
     :host {
-      --box-background-color: rgba(125,125,125,0.1);
-      --box-active-background-color: rgba(200,200,0, 0.2);
+      --box-background-color: var(--secondary-background-color);
+      --box-active-background-color: var(--primary-color);
       --icon-active-color: var(--primary-text-color);
       --card-grid-gap: 6px 6px;
       --card-padding: 10px;
