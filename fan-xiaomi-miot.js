@@ -614,10 +614,13 @@ class fanXiaomiMiotCard extends LitElement {
         transform: scale(0.7);
       }
       .not-found {
-        background-color: yellow;
+        background-color: var(--error-color);
         font-family: sans-serif;
         font-size: 14px;
         padding: 8px;
+        border-radius: 5px;
+        border: none;
+        min-height: 40px;
       }
 
 
