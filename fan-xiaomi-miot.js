@@ -250,7 +250,7 @@ class fanXiaomiMiotCard extends LitElement {
           icon: 'mdi:arrow-left-right'
         },
         hswing_angle: {
-          prop: 'fan.horizontal_angle',
+          prop: 'fan-2.horizontal_angle',
           value: [30,60,90,120,140],
           icon: 'mdi:arrow-left-right',
         },
