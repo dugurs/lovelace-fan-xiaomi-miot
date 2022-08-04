@@ -537,14 +537,8 @@ class fanXiaomiMiotCard extends LitElement {
         background: var(--box-active-background-color, var(--primary-color));
         color: var(--box-active-color, var(--text-primary-color));
       }
-      ha-card.state_off>div.active:after {
-        content:"";
-        background-color: var(--box-background-color, var(--secondary-background-color));
-        border-radius: 5px;
-        opacity: 0.6;
-        position: absolute;
-        width: 100%;
-        height: 100%;
+      ha-card.state_off>div.active {
+        opacity: 0.5;
       }
       ha-card>div:active.speed_slider { 
         background: none !important;
