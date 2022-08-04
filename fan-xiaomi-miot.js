@@ -301,7 +301,7 @@ class fanXiaomiMiotCard extends LitElement {
     } else {
       const hideTitle = this.config?.hide_title ? 'hide' : '';
       return html`
-        <ha-card class="${model}">
+        <ha-card class="${model} state_${stateStr}">
           <div class="title ${hideTitle}">
             ${state.attributes.friendly_name}
           </div>
@@ -537,6 +537,15 @@ class fanXiaomiMiotCard extends LitElement {
         background: var(--box-active-background-color, var(--primary-color));
         color: var(--box-active-color, var(--text-primary-color));
       }
+      ha-card.state_off>div.active:after {
+        content:"";
+        background-color: var(--box-background-color, var(--secondary-background-color));
+        border-radius: 5px;
+        opacity: 0.6;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
       ha-card>div:active.speed_slider { 
         background: none !important;
       }
@@ -712,7 +721,7 @@ class fanXiaomiMiotCard extends LitElement {
 
 }
 customElements.define("fanxiaomimiot-card", fanXiaomiMiotCard);
-console.info(`%cFAN-XIAOMI-MIOT v0.0.8 IS INSTALLED`,"color: green; font-weight: bold","");
+console.info(`%cFAN-XIAOMI-MIOT v0.0.10 IS INSTALLED`,"color: green; font-weight: bold","");
 
 
 // class fanXiaomiMiotCardEditor extends LitElement {
