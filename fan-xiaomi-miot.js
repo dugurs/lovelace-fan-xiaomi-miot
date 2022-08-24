@@ -367,6 +367,8 @@ class fanXiaomiMiotCard extends LitElement {
     }
     if (btn.name == 'off_delay_time') {
       box.classList.add((state.attributes['off_delay_time'] != 0) ? 'active' : 'inactive');
+    } else if (btn.name == 'mode') {
+      box.classList.add((state.attributes['fan.mode'] !== btn.state.indexOf('Straight Wind')) ? 'active' : 'inactive');
     } else if (btn.name == 'hswing_angle') {
       box.classList.add((state.attributes['fan.horizontal_swing']) ? 'show' : 'hide');
     } else if (btn.name == 'vswing_angle') {
