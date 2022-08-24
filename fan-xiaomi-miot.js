@@ -1,20 +1,32 @@
+const LitElement = Object.getPrototypeOf(
+  customElements.get("ha-panel-lovelace")
+);
+const html = LitElement.prototype.html;
+const css = LitElement.prototype.css;
 
-import {
-  LitElement,
-  html,
-  css
-} from "https://unpkg.com/lit-element@2.0.1/lit-element.js?module";
+function hasConfigOrEntityChanged(element, changedProps) {
+  if (changedProps.has("config")) {
+    return true;
+  }
 
-// https://velog.io/@jerrynim_/lit-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0-2n-property
+  const oldHass = changedProps.get("hass");
+  if (oldHass) {
+    return (
+      oldHass.states[element.config.entity] !== element.hass.states[element.config.entity]
+    );
+  }
+
+  return true;
+}
 
 class fanXiaomiMiotCard extends LitElement {
   static get properties() {
     return {
-      hass: {},
-      config: {}
+      config: {},
+      hass: {}
     };
   }
-  
+  stateAttr = {}
   btns = {};
   models = {}
 
@@ -291,8 +303,12 @@ class fanXiaomiMiotCard extends LitElement {
   }
 
 
+  shouldUpdate(changedProps) {
+    return hasConfigOrEntityChanged(this, changedProps);
+  }
 
   render() {
+    // console.log('rander:',Date.now());
     const state = this.hass.states[this.config.entity];
     const stateStr = state ? state.state : 'unavailable';
     const model = this.config.model ?? 'dmaker_fan_p220';
@@ -557,8 +573,8 @@ class fanXiaomiMiotCard extends LitElement {
         color: var(--icon-active-color, --primary-text-color);
       }
       ha-card>div.power.active .icon-waper {
-        --animation: rotate_image 1.5s linear infinite;
-        --transform-origin: 50% 50%;
+        animation: rotate_image 1s linear infinite;
+        transform-origin: 50% 50%;
       }
       .title {        grid-area: n; color: var(--primary-text-color) }
       .power {        grid-area: p; }
@@ -706,59 +722,7 @@ class fanXiaomiMiotCard extends LitElement {
     `;
   }
 
-  // static getConfigElement() {
-  //   return document.createElement("fanxiaomimiot-card-editor");
-  // }
-  // static getStubConfig() {
-  //   return { entity: "sun.sun" }
-  // }
-
 }
 customElements.define("fanxiaomimiot-card", fanXiaomiMiotCard);
-console.info(`%cFAN-XIAOMI-MIOT v0.0.10 IS INSTALLED`,"color: green; font-weight: bold","");
+console.info(`%cFAN-XIAOMI-MIOT v0.0.11 IS INSTALLED`,"color: green; font-weight: bold","");
 
-
-// class fanXiaomiMiotCardEditor extends LitElement {
-
-//   setConfig(config) {
-//     this._config = config;
-//   }
-
-//   entityChanged(ev) {
-//     const _config = Object.assign({}, this._config);
-//     _config.entity = ev.target.value;
-//     this._config = _config;
-
-//     const event = new CustomEvent("config-changed", {
-//       detail: { config: _config },
-//       bubbles: true,
-//       composed: true,
-//     });
-//     this.dispatchEvent(event);
-//   }
-
-//   render() {
-//     if (!this.hass || !this._config) {
-//       return html``;
-//     }
-
-//     return html`
-//     Entity:
-//     <input
-//     .value=${this._config.entity}
-//     @focusout=${this.entityChanged}
-//     ></input>
-//     `;
-//   }
-// }
-// customElements.define("fanxiaomimiot-card-editor", fanXiaomiMiotCardEditor);
-
-// window.customCards = window.customCards || [];
-// window.customCards.push({
-//   type: "fanxiaomimiot-card",
-//   name: "fan Xiaomi Miot card",
-//   preview: false, // Optional - defaults to false
-//   description: "A custom card made by me!" // Optional
-// });
-
-// https://gist.github.com/thomasloven/1de8c62d691e754f95b023105fe4b74b
