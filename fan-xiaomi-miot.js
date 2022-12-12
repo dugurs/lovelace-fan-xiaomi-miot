@@ -317,7 +317,7 @@ class fanXiaomiMiotCard extends LitElement {
           prop: 'heater.on',
           value: false,
           state: ['off', 'on'],
-          icon: 'mdi:radiator',
+          icon: ['mdi:radiator-off','mdi:radiator'],
           label: 'heater.target_temperature'
         },
         temp_down: {
