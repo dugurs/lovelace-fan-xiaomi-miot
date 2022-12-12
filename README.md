@@ -21,7 +21,8 @@ entity: fan.dmaker_p220_72de_fan
 ![image](https://user-images.githubusercontent.com/41262994/173026796-56a217eb-b1ab-4bde-9178-920794e66428.png)<br>
 ![dmaker.fan.p220](https://user-images.githubusercontent.com/41262994/174616733-31410f29-41a9-4aa7-99f2-c2c86dbd27d6.png)<br>
 ![dmaker.fan.p5](https://user-images.githubusercontent.com/41262994/174618681-d80eeb25-60b0-47b3-82b6-66b94a08f72e.png)<br>
-![zhimi.za2.heater](https://user-images.githubusercontent.com/41262994/206959432-ca123d92-7033-46af-b396-566037a89bf4.jpg)<br>
+![zhimi.za2.heater](https://user-images.githubusercontent.com/41262994/206959834-12edd70b-7ff9-4e91-af44-de1b87c4fc78.jpg)<br>
+
 
 
 
