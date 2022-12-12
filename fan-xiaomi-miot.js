@@ -26,9 +26,10 @@ class fanXiaomiMiotCard extends LitElement {
       hass: {}
     };
   }
-  stateAttr = {}
+  
   btns = {};
-  models = {}
+  models = {};
+  mapping = {}
 
   setConfig(config) {
     if (!config.entity) {
@@ -39,7 +40,15 @@ class fanXiaomiMiotCard extends LitElement {
 
   async connectedCallback() {
     super.connectedCallback()
+    // const state = this.hass.states[this.config.entity];
+    // await this.loadJSON(`/local/custom-lovelace/lovelace-fan-xiaomi-miot/${state.attributes.model}.json`); 
     await this.setBtns();
+  }
+
+  async loadJSON(url) {
+    const response = await fetch(url);
+    this.mapping = await response.json();
+    console.log('mapping:',this.mapping);
   }
 
   async setBtns() {
@@ -268,16 +277,24 @@ class fanXiaomiMiotCard extends LitElement {
         },
         swing_left: {
           prop: {
-            siid: 2,
-            piid: 7
+            service: 'select',
+            service_value: 'select_option',
+            data: {
+              entity_id: this.config.entity.replace(/^fan\./i, 'select.').replace(/_fan$/i, '_horizontal_angle'),
+              option: '-7'
+            }
           },
           value: -7,
           icon: 'mdi:chevron-left',
         },
         swing_right: {
           prop: {
-            siid: 2,
-            piid: 7
+            service: 'select',
+            service_value: 'select_option',
+            data: {
+              entity_id: this.config.entity.replace(/^fan\./i, 'select.').replace(/_fan$/i, '_horizontal_angle'),
+              option: '7'
+            }
           },
           value: 7,
           icon: 'mdi:chevron-right',
@@ -293,6 +310,73 @@ class fanXiaomiMiotCard extends LitElement {
           value: false,
           state: ['off', 'on'],
           icon: ['mdi:lock-open-variant','mdi:lock-open']
+        },
+      },
+      zhimi_za2_heater: {
+        power: {
+          prop: 'heater.on',
+          value: false,
+          state: ['off', 'on'],
+          icon: 'mdi:radiator',
+          label: 'heater.target_temperature'
+        },
+        temp_down: {
+          prop: 'heater.target_temperature',
+          value: 1,
+          min: 16,
+          max: 28,
+          step: 1,
+          icon: 'mdi:chevron-down',
+          backward: true
+        },
+        temp_up: {
+          prop: 'heater.target_temperature',
+          value: 1,
+          min: 16,
+          max: 28,
+          step: 1,
+          icon: 'mdi:chevron-up',
+        },
+        temp_slider: {
+          prop: 'heater.target_temperature',
+          value: 1,
+          min: 16,
+          max: 28,
+          step: 1
+        },
+        brightness: {
+          prop: 'indicator_light.brightness',
+          value: [0,1,2],
+          icon: ['mdi:brightness-5','mdi:brightness-4','mdi:brightness-1']
+        },
+        off_delay_time: {
+          prop: 'countdown.countdown_time',
+          value: [0,1,2,3,4,5,6,7,8],
+          icon: 'mdi:camera-timer'
+        },
+        alarm: {
+          prop: 'alarm',
+          value: false,
+          state: ['off', 'on'],
+          icon: ['mdi:volume-off','mdi:volume-high']
+        },
+        locked: {
+          prop: 'physical_controls_locked',
+          value: false,
+          state: ['off', 'on'],
+          icon: ['mdi:lock-open-variant','mdi:lock-open']
+        },
+        temperature: {
+          prop: 'environment.temperature',
+          value: 1,
+          icon: 'mdi:thermometer',
+          click: ''
+        },
+        humidity: {
+          prop: 'environment.relative_humidity',
+          value: 1,
+          icon: 'mdi:water-percent',
+          click: ''
         },
       }
     }
@@ -334,7 +418,7 @@ class fanXiaomiMiotCard extends LitElement {
 
 
   setUi(state, btn) {
-    if (btn.name == 'speed_slider') {
+    if (btn.name == 'speed_slider' || btn.name == 'temp_slider') {
       return this.setSpeedSlider(state, btn);
     } else {
       return this.setBtn(state, btn);
@@ -366,7 +450,11 @@ class fanXiaomiMiotCard extends LitElement {
       }
     }
     if (btn.name == 'off_delay_time') {
-      box.classList.add((state.attributes['off_delay_time'] != 0) ? 'active' : 'inactive');
+      if (state.attributes['off_delay_time'] != undefined) {
+        box.classList.add((state.attributes['off_delay_time'] != 0) ? 'active' : 'inactive');
+      } else if (state.attributes['countdown.countdown_time'] != undefined) {
+        box.classList.add((state.attributes['countdown.countdown_time'] != 0) ? 'active' : 'inactive');
+      }
     } else if (btn.name == 'mode') {
       box.classList.add((state.attributes['fan.mode'] !== btn.state.indexOf('Straight Wind')) ? 'active' : 'inactive');
     } else if (btn.name == 'hswing_angle') {
@@ -479,12 +567,16 @@ class fanXiaomiMiotCard extends LitElement {
     }
     // console.log(type, btn.name, _field, _value, typeof _value);
     if (typeof btn.prop == 'object') {
-      this.hass.callService('xiaomi_miot', "set_miot_property", {
-        entity_id: state.entity_id,
-        siid: btn.prop.siid,
-        piid: btn.prop.piid,
-        value: _value
-      });
+      if (typeof btn.prop.service != 'undefined') {
+        this.hass.callService(btn.prop.service, btn.prop.service_value, btn.prop.data);
+      } else {
+        this.hass.callService('xiaomi_miot', "set_miot_property", {
+          entity_id: state.entity_id,
+          siid: btn.prop.siid,
+          piid: btn.prop.piid,
+          value: _value
+        });
+      }
     } else {
       this.hass.callService('xiaomi_miot', "set_property", {
         entity_id: state.entity_id,
@@ -534,6 +626,11 @@ class fanXiaomiMiotCard extends LitElement {
         grid-template-columns: var(--card--grid-columns, repeat(7, 1fr));
         grid-template-areas: var(--card--grid-areas, "n n n n n n n" "p s hs ha o m a");
       }
+      ha-card.zhimi_za2_heater {
+        grid-template-rows: var(--card--grid-rows, min-content, 30px);
+        grid-template-columns: var(--card--grid-columns, repeat(7, 1fr));
+        grid-template-areas: var(--card--grid-areas, "n n n n n n n" "p s o t h b a");
+      }
       ha-card>div {
         display: flex;
         align-items: center;
@@ -558,7 +655,7 @@ class fanXiaomiMiotCard extends LitElement {
       ha-card.state_off>div.active {
         opacity: 0.5;
       }
-      ha-card>div:active.speed_slider { 
+      ha-card>div:active.speed_slider, ha-card>div:active.temp_slider { 
         background: none !important;
       }
       /*ha-card>div.active::before {
@@ -578,13 +675,16 @@ class fanXiaomiMiotCard extends LitElement {
         animation: rotate_image 1s linear infinite;
         transform-origin: 50% 50%;
       }
+      ha-card.zhimi_za2_heater>div.power.active .icon-waper {
+        animation: none;
+      }
       .title {        grid-area: n; color: var(--primary-text-color) }
       .power {        grid-area: p; }
       .mode {         grid-area: m; }
       .speed {        grid-area: s; }
-      .speed_down {   grid-area: s; position: relative; width: 50%; }
-      .speed_up {     grid-area: s; position: relative; width: 50%; left: 50%;}
-      .speed_slider { grid-area: n; opacity: 0.5; }
+      .speed_down, .temp_down {   grid-area: s; position: relative; width: 50%; }
+      .speed_up, .temp_up {     grid-area: s; position: relative; width: 50%; left: 50%;}
+      .speed_slider, .temp_slider { grid-area: n; opacity: 0.5; }
       .off_delay_time { grid-area: o; }
       .hswing {       grid-area: hs; }
       .hswing_angle { grid-area: ha; }
@@ -604,6 +704,7 @@ class fanXiaomiMiotCard extends LitElement {
       .humidity {     grid-area: h; cursor: default; }
       .alarm {        grid-area: a; position: relative; width: 50%; }
       .locked {       grid-area: a; position: relative; width: 50%; left: 50%; }
+      .brightness {   grid-area: b; }
 
       .hide,
       .state {
@@ -622,9 +723,15 @@ class fanXiaomiMiotCard extends LitElement {
         content: "%";
         font-size: 80%;
       }
+      .zhimi_za2_heater .power .label:after {
+        content: "°C";
+      }
       .off_delay_time .state:after {
         content: "m";
         font-size: 80%;
+      }
+      .zhimi_za2_heater .off_delay_time .state:after {
+        content: "h";
       }
       .vswing_angle .state:after,
       .hswing_angle .state:after {
@@ -726,5 +833,4 @@ class fanXiaomiMiotCard extends LitElement {
 
 }
 customElements.define("fanxiaomimiot-card", fanXiaomiMiotCard);
-console.info(`%cFAN-XIAOMI-MIOT v0.0.12 IS INSTALLED`,"color: green; font-weight: bold","");
-
+console.info(`%cFAN-XIAOMI-MIOT v0.0.14 IS INSTALLED`,"color: green; font-weight: bold","");
