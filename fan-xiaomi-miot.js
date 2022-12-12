@@ -312,7 +312,7 @@ class fanXiaomiMiotCard extends LitElement {
           icon: ['mdi:lock-open-variant','mdi:lock-open']
         },
       },
-      zhimi_za2_heater: {
+      zhimi_heater_za2: {
         power: {
           prop: 'heater.on',
           value: false,
@@ -396,12 +396,13 @@ class fanXiaomiMiotCard extends LitElement {
     const state = this.hass.states[this.config.entity];
     const stateStr = state ? state.state : 'unavailable';
     const model = this.config.model ?? 'dmaker_fan_p220';
+    const deviceType = model.split('_')[1];
     if (stateStr == 'unavailable') {
       return html`<div class="not-found">Entity ${this.config.entity} not found.</div>`;
     } else {
       const hideTitle = this.config?.hide_title ? 'hide' : '';
       return html`
-        <ha-card class="${model} state_${stateStr}">
+        <ha-card class="${deviceType} ${model} state_${stateStr}">
           <div class="title ${hideTitle}">
             ${state.attributes.friendly_name}
           </div>
@@ -626,7 +627,7 @@ class fanXiaomiMiotCard extends LitElement {
         grid-template-columns: var(--card--grid-columns, repeat(7, 1fr));
         grid-template-areas: var(--card--grid-areas, "n n n n n n n" "p s hs ha o m a");
       }
-      ha-card.zhimi_za2_heater {
+      ha-card.zhimi_heater_za2 {
         grid-template-rows: var(--card--grid-rows, min-content, 30px);
         grid-template-columns: var(--card--grid-columns, repeat(7, 1fr));
         grid-template-areas: var(--card--grid-areas, "n n n n n n n" "p s o t h b a");
@@ -675,7 +676,7 @@ class fanXiaomiMiotCard extends LitElement {
         animation: rotate_image 1s linear infinite;
         transform-origin: 50% 50%;
       }
-      ha-card.zhimi_za2_heater>div.power.active .icon-waper {
+      ha-card.heater>div.power.active .icon-waper {
         animation: none;
       }
       .title {        grid-area: n; color: var(--primary-text-color) }
@@ -723,14 +724,14 @@ class fanXiaomiMiotCard extends LitElement {
         content: "%";
         font-size: 80%;
       }
-      .zhimi_za2_heater .power .label:after {
+      .heater .power .label:after {
         content: "°C";
       }
       .off_delay_time .state:after {
         content: "m";
         font-size: 80%;
       }
-      .zhimi_za2_heater .off_delay_time .state:after {
+      .heater .off_delay_time .state:after {
         content: "h";
       }
       .vswing_angle .state:after,
