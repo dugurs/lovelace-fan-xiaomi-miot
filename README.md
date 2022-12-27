@@ -1,6 +1,10 @@
 # lovelace-fan-xiaomi-miot
 
- 샤오미 [```dmaker.fan.p220```](https://home.miot-spec.com/s/dmaker.fan.p220), [```dmaker.fan.p5```](https://home.miot-spec.com/s/dmaker.fan.p5), [```zhimi.heater.za2```](https://home.miot-spec.com/s/zhimi.heater.za2) 전용이고<br>
+ 샤오미 [```dmaker.fan.p220```](https://home.miot-spec.com/s/dmaker.fan.p220),
+ [```dmaker.fan.p5```](https://home.miot-spec.com/s/dmaker.fan.p5), 
+ [```zhimi.heater.za2```](https://home.miot-spec.com/s/zhimi.heater.za2), 
+ [```deerma.humidifier.jsq2```](https://home.miot-spec.com/s/deerma.humidifier.jsq2),
+ 전용이고<br>
  [```Xiaomi Miot Auto```](https://github.com/al-one/hass-xiaomi-miot)통합구성요소로 구성한 것에 한해 작동합니다.<br><br>
 ![screenshot](https://user-images.githubusercontent.com/41262994/175013447-350e34b2-5536-4004-98e7-066998bd47ea.jpg)<br>
 
@@ -22,6 +26,8 @@ modle: dmaker.fan.p220
 ![dmaker.fan.p220](https://user-images.githubusercontent.com/41262994/174616733-31410f29-41a9-4aa7-99f2-c2c86dbd27d6.png)<br>
 ![dmaker.fan.p5](https://user-images.githubusercontent.com/41262994/174618681-d80eeb25-60b0-47b3-82b6-66b94a08f72e.png)<br>
 ![zhimi.heater.za2](https://user-images.githubusercontent.com/41262994/206959834-12edd70b-7ff9-4e91-af44-de1b87c4fc78.jpg)<br>
+![deerma.humidifier.jsq2](https://user-images.githubusercontent.com/41262994/209661974-e9c78951-24e4-4adc-8233-f7fb8fda5b6b.png)<br>
+
 
 
 
@@ -31,8 +37,8 @@ modle: dmaker.fan.p220
 | :-----: | :---------: | :---------: | ----------------------- |
 | hide_title | true |   | 상단 타이틀을 숨길수 있습니다. |
 | percentage_step | 20 | 25 | 속도조절 스탭을 설정합니다. |
-| off_delay_time | [0,30,60,120] | [0,30,60,120,180,240,300,360,420,480] |  off 타이머 단계를 원하는 시간(분)으로 설정할수 있습니다. |
-| model | dmaker_fan_p5, zhimi_heater_za2 | dmaker_fan_p220 | 선품기 모델을 설정 합니다. |
+| off_delay_time | [0,30,60,120] | [0,30,60,120,180,240,300,360,420,480] |  선풍기 모델의 off 타이머 단계를 원하는 시간(분)으로 설정할수 있습니다. |
+| model | dmaker_fan_p5, zhimi_heater_za2, deerma.humidifier.jsq2w, deerma.humidifier.jsq2g | dmaker_fan_p220 | 모델을 설정 합니다. |
 
 
 ## card-mod
