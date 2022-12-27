@@ -741,6 +741,9 @@ class fanXiaomiMiotCard extends LitElement {
         background: var(--box-active-background-color, var(--primary-color));
         color: var(--box-active-color, var(--text-primary-color));
       }
+      ha-card>div.active.fault {
+        background: var(--error-color);
+      }
       ha-card.state_off>div.active {
         opacity: 0.5;
       }
