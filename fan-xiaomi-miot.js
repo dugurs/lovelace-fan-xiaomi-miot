@@ -379,7 +379,7 @@ class fanXiaomiMiotCard extends LitElement {
           click: ''
         },
       },
-      deerma_humidifier_jsq2g: {
+      deerma_humidifier_jsq2: {
         power: {
           prop: 'humidifier.on',
           value: false,
@@ -715,7 +715,7 @@ class fanXiaomiMiotCard extends LitElement {
         grid-template-columns: var(--card--grid-columns, repeat(5, 1fr));
         grid-template-areas: var(--card--grid-areas, "p s n n n" "t h o b a");
       }
-      ha-card.deerma_humidifier_jsq2g {
+      ha-card.deerma_humidifier_jsq2 {
         grid-template-rows: var(--card--grid-rows, min-content, 30px);
         grid-template-columns: var(--card--grid-columns, repeat(7, 1fr));
         grid-template-areas: var(--card--grid-areas, "p s n n n n n" "m fl st t h f a");
