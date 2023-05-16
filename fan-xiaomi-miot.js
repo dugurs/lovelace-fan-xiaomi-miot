@@ -227,10 +227,10 @@ class fanXiaomiMiotCard extends LitElement {
           value: false,
           state: ['off', 'on'],
           icon: 'mdi:fan',
-          label: 'fan.speed_level'
+          label: 'fan-2.stepless_fan_level'
         },
         down: {
-          prop: 'fan.speed_level',
+          prop: 'fan-2.stepless_fan_level',
           value: 1,
           min: 1,
           max: 100,
@@ -239,7 +239,7 @@ class fanXiaomiMiotCard extends LitElement {
           backward: true
         },
         up: {
-          prop: 'fan.speed_level',
+          prop: 'fan-2.stepless_fan_level',
           value: 1,
           min: 1,
           max: 100,
@@ -247,7 +247,7 @@ class fanXiaomiMiotCard extends LitElement {
           icon: 'mdi:chevron-up',
         },
         slider: {
-          prop: 'fan.speed_level',
+          prop: 'fan-2.stepless_fan_level',
           value: 1,
           min: 1,
           max: 100,
@@ -271,7 +271,7 @@ class fanXiaomiMiotCard extends LitElement {
           icon: 'mdi:arrow-left-right'
         },
         hswing_angle: {
-          prop: 'fan-2.horizontal_angle',
+          prop: 'horizontal_swing_included_angle-2-5',
           value: [30,60,90,120,140],
           icon: 'mdi:arrow-left-right',
         },
@@ -280,7 +280,7 @@ class fanXiaomiMiotCard extends LitElement {
             service: 'select',
             service_value: 'select_option',
             data: {
-              entity_id: this.config.entity.replace(/^fan\./i, 'select.').replace(/_fan$/i, '_horizontal_angle'),
+              entity_id: this.config.entity.replace(/^fan\./i, 'number.').replace(/_fan$/i, '_horizontal_angle'),
               option: '-7'
             }
           },
@@ -292,7 +292,7 @@ class fanXiaomiMiotCard extends LitElement {
             service: 'select',
             service_value: 'select_option',
             data: {
-              entity_id: this.config.entity.replace(/^fan\./i, 'select.').replace(/_fan$/i, '_horizontal_angle'),
+              entity_id: this.config.entity.replace(/^fan\./i, 'number.').replace(/_fan$/i, '_horizontal_angle'),
               option: '7'
             }
           },
@@ -927,4 +927,4 @@ class fanXiaomiMiotCard extends LitElement {
 
 }
 customElements.define("fanxiaomimiot-card", fanXiaomiMiotCard);
-console.info(`%cXIAOMI-MIOT CARD v0.0.16 IS INSTALLED`,"color: green; font-weight: bold","");
+console.info(`%cXIAOMI-MIOT CARD v0.0.17 IS INSTALLED`,"color: green; font-weight: bold","");
