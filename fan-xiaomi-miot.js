@@ -129,22 +129,38 @@ class fanXiaomiMiotCard extends LitElement {
           // dblclick: 'vswing_angle'
         },
         swing_down: {
-          prop: 'dm_service.swing_updown_manual',
+          // prop: 'dm_service.swing_updown_manual',
+          prop: {
+            siid: 8,
+            piid: 2
+          },
           value: 2,
           icon: 'mdi:chevron-down',
         },
         swing_up: {
-          prop: 'dm_service.swing_updown_manual',
+          // prop: 'dm_service.swing_updown_manual',
+          prop: {
+            siid: 8,
+            piid: 2
+          },
           value: 1,
           icon: 'mdi:chevron-up',
         },
         swing_left: {
-          prop: 'dm_service.swing_lr_manual',
+          // prop: 'dm_service.swing_lr_manual',
+          prop: {
+            siid: 8,
+            piid: 3
+          },
           value: 1,
           icon: 'mdi:chevron-left',
         },
         swing_right: {
-          prop: 'dm_service.swing_lr_manual',
+          // prop: 'dm_service.swing_lr_manual',
+          prop: {
+            siid: 8,
+            piid: 3
+          },
           value: 2,
           icon: 'mdi:chevron-right',
         },
@@ -221,6 +237,93 @@ class fanXiaomiMiotCard extends LitElement {
           icon: 'mdi:chevron-up',
         },
       },
+      
+      dmaker_fan_p33: {
+        power : {
+          prop: 'fan.on',
+          value: false,
+          state: ['off', 'on'],
+          icon: 'mdi:fan',
+          label: 'fan.status'
+        },
+        // speed: {
+        //   prop: 'fan.fan_level',
+        //   value: [1,2,3,4],
+        //   icon: ['mdi:numeric-1-box-outline','mdi:numeric-2-box-outline','mdi:numeric-3-box-outline','mdi:numeric-4-box-outline']
+        // },
+        down: {
+          prop: 'fan.fan_level',
+          value: 1,
+          min: 1,
+          max: 4,
+          step: 1,
+          icon: 'mdi:chevron-down',
+          backward: true
+        },
+        up: {
+          prop: 'fan.fan_level',
+          value: 1,
+          min: 1,
+          max: 4,
+          step: 1,
+          icon: 'mdi:chevron-up',
+        },
+        slider: {
+          prop: 'fan.fan_level',
+          value: 1,
+          min: 1,
+          max: 100,
+          step: 1
+        },
+        mode: {
+          prop: 'fan.mode',
+          value: [0,1],
+          state: ['Straight Wind', 'Natural Wind'],
+          icon: ['mdi:weather-windy', 'mdi:leaf']
+        },
+        off_delay_time: {
+          prop: 'off_delay_time',
+          value: this.config.off_delay_time ?? [0,30,60,120,180,240,300,360,420,480],
+          icon: 'mdi:camera-timer'
+        },
+        hswing: {
+          prop: 'fan.horizontal_swing',
+          value: false,
+          state: ['off', 'on'],
+          icon: 'mdi:arrow-left-right'
+        },
+        hswing_angle: {
+          prop: 'horizontal_swing_included_angle-2-5',
+          value: [30,60,90,120,140],
+          icon: 'mdi:arrow-left-right',
+          // click: 'hswing',
+          // dblclick: 'hswing_angle'
+        },
+        swing_left: {
+          // prop: 'motor-controller',
+          prop: { siid: 6, piid: 1 },
+          value: 1,
+          icon: 'mdi:chevron-left',
+        },
+        swing_right: {
+          // prop: 'motor-controller',
+          prop: { siid: 6, piid: 1 },
+          value: 2,
+          icon: 'mdi:chevron-right',
+        },
+        alarm: {
+          prop: 'alarm',
+          value: false,
+          state: ['off', 'on'],
+          icon: ['mdi:volume-off','mdi:volume-high']
+        },
+        locked: {
+          prop: 'physical_controls_locked',
+          value: false,
+          state: ['off', 'on'],
+          icon: ['mdi:lock-open-variant','mdi:lock-open']
+        },
+      },
       dmaker_fan_p5: {
         power: {
           prop: 'fan.on',
@@ -276,25 +379,33 @@ class fanXiaomiMiotCard extends LitElement {
           icon: 'mdi:arrow-left-right',
         },
         swing_left: {
+          // prop: {
+          //   service: 'select',
+          //   service_value: 'select_option',
+          //   data: {
+          //     entity_id: this.config.entity.replace(/^fan\./i, 'number.').replace(/_fan$/i, '_horizontal_angle'),
+          //     option: '-7'
+          //   }
+          // },
           prop: {
-            service: 'select',
-            service_value: 'select_option',
-            data: {
-              entity_id: this.config.entity.replace(/^fan\./i, 'number.').replace(/_fan$/i, '_horizontal_angle'),
-              option: '-7'
-            }
+            siid: 2,
+            piid: 7
           },
           value: -7,
           icon: 'mdi:chevron-left',
         },
         swing_right: {
+          // prop: {
+          //   service: 'select',
+          //   service_value: 'select_option',
+          //   data: {
+          //     entity_id: this.config.entity.replace(/^fan\./i, 'number.').replace(/_fan$/i, '_horizontal_angle'),
+          //     option: '7'
+          //   }
+          // },
           prop: {
-            service: 'select',
-            service_value: 'select_option',
-            data: {
-              entity_id: this.config.entity.replace(/^fan\./i, 'number.').replace(/_fan$/i, '_horizontal_angle'),
-              option: '7'
-            }
+            siid: 2,
+            piid: 7
           },
           value: 7,
           icon: 'mdi:chevron-right',
@@ -481,7 +592,11 @@ class fanXiaomiMiotCard extends LitElement {
     const model = this.config.model ?? 'dmaker_fan_p220';
     const deviceType = model.split('_')[1];
     if (stateStr == 'unavailable') {
-      return html`<div class="not-found">Entity ${this.config.entity} not found.</div>`;
+      return html`
+        <ha-card class="${deviceType} ${model} state_${stateStr} error">
+          <div class="not-found">Unavailable entity ${this.config.entity}</div>
+        </ha-card>
+      `;
     } else {
       const hideTitle = this.config?.hide_title ? 'hide' : '';
       return html`
@@ -684,8 +799,6 @@ class fanXiaomiMiotCard extends LitElement {
 
   static get styles() {
     return css`
-      :host {
-      }
       @keyframes rotate_image{
         100% {
             transform: rotate(360deg);
@@ -693,12 +806,16 @@ class fanXiaomiMiotCard extends LitElement {
       }
       ha-card {
         background: var(--ha-card-background, var(--card-background-color, white) );
-        border-radius: var(--ha-card-border-radius, 4px);
-        box-shadow: var( --ha-card-box-shadow, 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12) );
+        box-shadow: var(--ha-card-box-shadow,none);
+        box-sizing: border-box;
+        border-radius: var(--ha-card-border-radius,12px);
+        border-width: var(--ha-card-border-width,1px);
+        border-style: solid;
+        border-color: var(--ha-card-border-color,var(--divider-color,#e0e0e0));
         color: var(--primary-text-color);
         padding: var(--card-padding, 10px);
         display: grid;
-        grid-template-rows: var(--card--grid-rows, min-content, 30px, 30px, 30px);
+        grid-template-rows: var(--card--grid-rows, 40px);
         grid-template-columns: var(--card--grid-columns, repeat(5, 1fr));
         grid-template-areas: var(--card--grid-areas, "n n n n n" "p s hs ha t" "o m vs va h" "ao aot af aft a");
         gap: var(--card-grid-gap, 6px 6px);
@@ -706,17 +823,18 @@ class fanXiaomiMiotCard extends LitElement {
         place-content: space-between;
       }
       ha-card.dmaker_fan_p5 {
-        grid-template-rows: var(--card--grid-rows, min-content, 30px);
-        grid-template-columns: var(--card--grid-columns, repeat(7, 1fr));
-        grid-template-areas: var(--card--grid-areas, "n n n n n n n" "p s hs ha o m a");
+        grid-template-columns: var(--card--grid-columns, repeat(6, 1fr));
+        grid-template-areas: var(--card--grid-areas, "p n n n n n" "s hs ha o m a");
+      }
+      ha-card.dmaker_fan_p33 {
+        grid-template-columns: var(--card--grid-columns, repeat(6, 1fr));
+        grid-template-areas: var(--card--grid-areas, "p s n n n n" "hs ha o m a a");
       }
       ha-card.zhimi_heater_za2 {
-        grid-template-rows: var(--card--grid-rows, min-content, 30px);
         grid-template-columns: var(--card--grid-columns, repeat(5, 1fr));
         grid-template-areas: var(--card--grid-areas, "p s n n n" "t h o b a");
       }
       ha-card.deerma_humidifier_jsq2 {
-        grid-template-rows: var(--card--grid-rows, min-content, 30px);
         grid-template-columns: var(--card--grid-columns, repeat(7, 1fr));
         grid-template-areas: var(--card--grid-areas, "p s n n n n n" "m fl st t h f a");
       }
@@ -728,8 +846,8 @@ class fanXiaomiMiotCard extends LitElement {
         color: var(--secondary-text-color);
         --color: var(--primary-text-color);
         border-radius: 5px;
+        border-radius: calc(var(--ha-card-border-radius,12px)*0.7);
         border: none;
-        width: 100%;
         height: 100%;
         min-height: 40px;
         cursor: pointer;
@@ -835,14 +953,16 @@ class fanXiaomiMiotCard extends LitElement {
       .vswing_angle .icon-waper {
         transform: scale(0.7);
       }
+      
+      ha-card.error {
+        grid-template-rows: min-content;
+        grid-template-columns: 1fr;
+        grid-template-areas: "n";
+      }
       .not-found {
-        background-color: var(--error-color);
-        font-family: sans-serif;
-        font-size: 14px;
-        padding: 8px;
-        border-radius: 5px;
-        border: none;
-        min-height: 40px;
+        grid-area: n;
+        color: var(--error-color);
+        font-style: italic;
       }
 
 
@@ -856,7 +976,7 @@ class fanXiaomiMiotCard extends LitElement {
         height: 100%;
         width: 100%;
         cursor: pointer;
-        border-radius: 5px;
+        border-radius: calc(var(--ha-card-border-radius,12px)*0.7);
       }
       
       input[type="range"]::-webkit-slider-runnable-track {
@@ -927,4 +1047,4 @@ class fanXiaomiMiotCard extends LitElement {
 
 }
 customElements.define("fanxiaomimiot-card", fanXiaomiMiotCard);
-console.info(`%cXIAOMI-MIOT CARD v0.0.17 IS INSTALLED`,"color: green; font-weight: bold","");
+console.info(`%cXIAOMI-MIOT CARD v0.0.18 IS INSTALLED`,"color: green; font-weight: bold","");
