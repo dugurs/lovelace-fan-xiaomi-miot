@@ -423,6 +423,90 @@ class fanXiaomiMiotCard extends LitElement {
           icon: ['mdi:lock-open-variant','mdi:lock-open']
         },
       },
+      zhimi_fan_za4: {
+        power: {
+          prop: 'fan.on',
+          value: false,
+          state: ['off', 'on'],
+          icon: 'mdi:fan',
+          label: 'fan.fan_level'
+        },
+        down: {
+          prop: 'fan.fan_level',
+          value: 1,
+          min: 1,
+          max: 100,
+          step: this.config.percentage_step ?? 25,
+          icon: 'mdi:chevron-down',
+          backward: true
+        },
+        up: {
+          prop: 'fan.fan_level',
+          value: 1,
+          min: 1,
+          max: 100,
+          step: this.config.percentage_step ?? 25,
+          icon: 'mdi:chevron-up',
+        },
+        slider: {
+          prop: 'fan.fan_level',
+          value: 1,
+          min: 1,
+          max: 100,
+          step: 1
+        },
+        mode: {
+          prop: 'fan.mode',
+          value: [0,1],
+          state: ['Straight Wind', 'Natural Wind'],
+          icon: ['mdi:weather-windy', 'mdi:leaf']
+        },
+        // off_delay_time: {
+        //   prop: { siid: 6, piid: 1 },
+        //   value: this.config.off_delay_time ?? [0,30,60,120,180,240,300,360,420,480],
+        //   valueCalc: '*60',
+        //   icon: 'mdi:camera-timer'
+        // },
+        hswing: {
+          prop: 'fan.horizontal_swing',
+          value: false,
+          state: ['off', 'on'],
+          icon: 'mdi:arrow-left-right'
+        },
+        hswing_angle: {
+          prop: 'horizontal_swing_included_angle-2-4',
+          value: [30,60,90,120],
+          icon: 'mdi:arrow-left-right',
+        },
+        swing_left: {
+          prop: {
+            siid: 2,
+            aiid: 1
+          },
+          value: true,
+          icon: 'mdi:chevron-left',
+        },
+        swing_right: {
+          prop: {
+            siid: 2,
+            aiid: 2
+          },
+          value: true,
+          icon: 'mdi:chevron-right',
+        },
+        alarm: {
+          prop: 'alarm',
+          value: false,
+          state: ['off', 'on'],
+          icon: ['mdi:volume-off','mdi:volume-high']
+        },
+        locked: {
+          prop: 'physical_controls_locked',
+          value: false,
+          state: ['off', 'on'],
+          icon: ['mdi:lock-open-variant','mdi:lock-open']
+        },
+      },
       zhimi_heater_za2: {
         power: {
           prop: 'heater.on',
@@ -764,6 +848,9 @@ class fanXiaomiMiotCard extends LitElement {
     } else {
       _value = btn.value;
     }
+    if (typeof btn.valueCalc != 'undefined') {
+      _value = calculateEquation(`${value} ${btn.valueCalc}`);
+    }
     // console.log(type, btn.name, _field, _value, typeof _value);
     if (typeof btn.prop == 'object') {
       if (typeof btn.prop.service != 'undefined') {
@@ -789,7 +876,9 @@ class fanXiaomiMiotCard extends LitElement {
       this._toggle('click', state, this.btns.power, true);
     }
   }
-
+  calculateEquation(equation) {
+    return Function('"use strict";return (' + equation + ')')();
+  }
   // The height of your card. Home Assistant uses this to automatically
   // distribute all cards over the available columns.
   getCardSize() {
@@ -825,6 +914,10 @@ class fanXiaomiMiotCard extends LitElement {
       ha-card.dmaker_fan_p5 {
         grid-template-columns: var(--card--grid-columns, repeat(6, 1fr));
         grid-template-areas: var(--card--grid-areas, "p n n n n n" "s hs ha o m a");
+      }
+      ha-card.zhimi_fan_za4 {
+        grid-template-columns: var(--card--grid-columns, repeat(5, 1fr));
+        grid-template-areas: var(--card--grid-areas, "p n n n n" "s hs ha m a");
       }
       ha-card.dmaker_fan_p33 {
         grid-template-columns: var(--card--grid-columns, repeat(6, 1fr));
