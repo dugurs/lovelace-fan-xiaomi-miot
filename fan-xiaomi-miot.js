@@ -423,6 +423,7 @@ class fanXiaomiMiotCard extends LitElement {
           icon: ['mdi:lock-open-variant','mdi:lock-open']
         },
       },
+
       zhimi_fan_za4: {
         power: {
           prop: 'fan.on',
@@ -461,12 +462,15 @@ class fanXiaomiMiotCard extends LitElement {
           state: ['Straight Wind', 'Natural Wind'],
           icon: ['mdi:weather-windy', 'mdi:leaf']
         },
-        // off_delay_time: {
-        //   prop: { siid: 6, piid: 1 },
-        //   value: this.config.off_delay_time ?? [0,30,60,120,180,240,300,360,420,480],
-        //   valueCalc: '*60',
-        //   icon: 'mdi:camera-timer'
-        // },
+        off_delay_time: {
+          prop: { siid: 6, piid: 1 },
+          value: this.config.off_delay_time ?? [0,30,60,120,180,240,300,360,420,480],
+          valueType: 'secouds',
+          icon: 'mdi:camera-timer',
+          label: {
+            entity_id: this.config.entity.replace(/^fan\./i, 'number.').replace(/_fan$/i, '_off_delay_time'),
+          }
+        },
         hswing: {
           prop: 'fan.horizontal_swing',
           value: false,
@@ -507,6 +511,7 @@ class fanXiaomiMiotCard extends LitElement {
           icon: ['mdi:lock-open-variant','mdi:lock-open']
         },
       },
+
       zhimi_heater_za2: {
         power: {
           prop: 'heater.on',
@@ -574,6 +579,7 @@ class fanXiaomiMiotCard extends LitElement {
           click: ''
         },
       },
+
       deerma_humidifier_jsq2: {
         power: {
           prop: 'humidifier.on',
@@ -656,6 +662,76 @@ class fanXiaomiMiotCard extends LitElement {
           icon: 'mdi:water-percent',
           click: ''
         },
+      },
+
+      dmaker_derh_22l: {
+        power: {
+          prop: 'dehumidifier.on',
+          value: false,
+          state: ['off', 'on'],
+          icon: ['mdi:air-humidifier-off','mdi:air-humidifier'],
+          label: 'dehumidifier.target_humidity'
+        },
+        down: {
+          prop: 'dehumidifier.target_humidity',
+          value: 1,
+          min: 30,
+          max: 70,
+          step: 1,
+          icon: 'mdi:chevron-down',
+          backward: true
+        },
+        up: {
+          prop: 'dehumidifier.target_humidity',
+          value: 1,
+          min: 30,
+          max: 70,
+          step: 1,
+          icon: 'mdi:chevron-up',
+        },
+        slider: {
+          prop: 'dehumidifier.target_humidity',
+          value: 1,
+          min: 30,
+          max: 70,
+          step: 1
+        },
+        mode: {
+          prop: 'dehumidifier.mode',
+          value: [0,1,2],
+          state: ['Smart', 'Sleep', 'Clothes Drying'],
+          icon: ['mdi:waves','mdi:sleep','mdi:tshirt-crew-outline'],
+        },
+        off_delay_time: {
+          prop: 'off_delay_time',
+          value: this.config.off_delay_time ?? [0,30,60,120,180,240,300,360,420,480],
+          icon: 'mdi:camera-timer'
+        },
+        fault: {
+          prop: 'dehumidifier.fault',
+          value: [0,1,2,3,4,5,6,7,8,9],
+          state: ['No Faults', 'Water Full', 'Sensor Fault1', 'Sensor Fault2', 'Communication Fault1', 'Filter Clean', 'Defrost', 'Fan Motor', 'Overload', 'Lack Of Refrigerant'],
+          icon: ['mdi:tray-full','mdi:alert-circle-check-outline','mdi:alert-circle-check', 'mdi:access-point-network-off', 'mdi:air-filter', 'mdi:car-defrost-rear', 'mdi:engine-off-outline', 'mdi:debug-step-over', 'mdi:gas-cylinder' ],
+          click: ''
+        },
+        indicator_light: {
+          prop: 'indicator_light.on',
+          value: false,
+          state: ['off', 'on'],
+          icon: ['mdi:brightness-2','mdi:brightness-5']
+        },
+        alarm: {
+          prop: 'alarm',
+          value: false,
+          state: ['off', 'on'],
+          icon: ['mdi:volume-off','mdi:volume-high']
+        },
+        dry_after_off: {
+          prop: 'dm_service.dry_after_off',
+          value: false,
+          state: ['off', 'on'],
+          icon: 'mdi:hair-dryer'
+        }
       }
     }
 
@@ -800,7 +876,11 @@ class fanXiaomiMiotCard extends LitElement {
     if (typeof btn.label == 'undefined') {
       return '';
     }
-    if (typeof this.btns[btn.label] == 'undefined') {
+    if (typeof btn.label == 'object') {
+      if (typeof btn.label.edtity_id != 'undefined') {
+        return this.hass.states[btn.label.edtity_id].state;
+      }
+    } else if (typeof this.btns[btn.label] == 'undefined') {
       return state.attributes[btn.label];
     } else {
       btn = this.btns[btn['label']];
@@ -931,6 +1011,10 @@ class fanXiaomiMiotCard extends LitElement {
         grid-template-columns: var(--card--grid-columns, repeat(7, 1fr));
         grid-template-areas: var(--card--grid-areas, "p s n n n n n" "m fl st t h f a");
       }
+      ha-card.dmaker_derh_22l {
+        grid-template-columns: var(--card--grid-columns, repeat(5, 1fr));
+        grid-template-areas: var(--card--grid-areas, "p n n n n" "s m df f a");
+      }
       ha-card>div {
         display: flex;
         align-items: center;
@@ -1007,6 +1091,7 @@ class fanXiaomiMiotCard extends LitElement {
       .locked {       grid-area: a; position: relative; width: 50%; left: 50%; }
       .brightness {   grid-area: b; }
       .fan_level {    grid-area: fl; }
+      .dry_after_off {grid-area: df; }
       .status {       grid-area: st; cursor: default; }
       .fault {        grid-area: f; cursor: default; }
 
@@ -1140,4 +1225,4 @@ class fanXiaomiMiotCard extends LitElement {
 
 }
 customElements.define("fanxiaomimiot-card", fanXiaomiMiotCard);
-console.info(`%cXIAOMI-MIOT CARD v0.0.19 IS INSTALLED`,"color: green; font-weight: bold","");
+console.info(`%cXIAOMI-MIOT CARD v0.0.20 IS INSTALLED`,"color: green; font-weight: bold","");
