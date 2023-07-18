@@ -45,7 +45,7 @@ modle: dmaker.fan.p220
 | hide_title | true |   | 상단 타이틀을 숨길수 있습니다. |
 | percentage_step | 20 | 25 | 속도조절 스탭을 설정합니다. |
 | off_delay_time | [0,30,60,120] | [0,30,60,120,180,240,300,360,420,480] |  선풍기 모델의 off 타이머 단계를 원하는 시간(분)으로 설정할수 있습니다. |
-| model | dmaker_fan_p33, dmaker_fan_p5, zhimi_heater_za2, deerma_humidifier_jsq2w, deerma_humidifier_jsq2g | dmaker_fan_p220 | 모델을 설정 합니다. |
+| model | dmaker_fan_p33, dmaker_fan_p5, zhimi_heater_za2, deerma_humidifier_jsq2w, deerma_humidifier_jsq2g, ... | dmaker_fan_p220 | 모델을 설정 합니다. |
 * dmaker.fan.p221은 dmaker_fan_p220로 model 설정 하세요.
 * dmaker.fan.p33은 테스트되지 않아 오작동 할 수 있습니다.
 
