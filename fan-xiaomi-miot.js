@@ -1012,8 +1012,8 @@ class fanXiaomiMiotCard extends LitElement {
         grid-template-areas: var(--card--grid-areas, "p s n n n n n" "m fl st t h f a");
       }
       ha-card.dmaker_derh_22l {
-        grid-template-columns: var(--card--grid-columns, repeat(5, 1fr));
-        grid-template-areas: var(--card--grid-areas, "p n n n n" "s m df f a");
+        grid-template-columns: var(--card--grid-columns, repeat(6, 1fr));
+        grid-template-areas: var(--card--grid-areas, "p n n n n n" "s m o df f a");
       }
       ha-card>div {
         display: flex;
@@ -1225,4 +1225,4 @@ class fanXiaomiMiotCard extends LitElement {
 
 }
 customElements.define("fanxiaomimiot-card", fanXiaomiMiotCard);
-console.info(`%cXIAOMI-MIOT CARD v0.0.20 IS INSTALLED`,"color: green; font-weight: bold","");
+console.info(`%cXIAOMI-MIOT CARD v0.0.21 IS INSTALLED`,"color: green; font-weight: bold","");
