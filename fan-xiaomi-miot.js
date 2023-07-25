@@ -462,15 +462,15 @@ class fanXiaomiMiotCard extends LitElement {
           state: ['Straight Wind', 'Natural Wind'],
           icon: ['mdi:weather-windy', 'mdi:leaf']
         },
-        off_delay_time: {
-          prop: { siid: 6, piid: 1 },
-          value: this.config.off_delay_time ?? [0,30,60,120,180,240,300,360,420,480],
-          valueType: 'secouds',
-          icon: 'mdi:camera-timer',
-          label: {
-            entity_id: this.config.entity.replace(/^fan\./i, 'number.').replace(/_fan$/i, '_off_delay_time'),
-          }
-        },
+        // off_delay_time: {
+        //   prop: { siid: 6, piid: 1 },
+        //   value: this.config.off_delay_time ?? [0,30,60,120,180,240,300,360,420,480],
+        //   valueType: 'secouds',
+        //   icon: 'mdi:camera-timer',
+        //   label: {
+        //     entity_id: this.config.entity.replace(/^fan\./i, 'number.').replace(/_fan$/i, '_off_delay_time'),
+        //   }
+        // },
         hswing: {
           prop: 'fan.horizontal_swing',
           value: false,
@@ -1225,4 +1225,4 @@ class fanXiaomiMiotCard extends LitElement {
 
 }
 customElements.define("fanxiaomimiot-card", fanXiaomiMiotCard);
-console.info(`%cXIAOMI-MIOT CARD v0.0.21 IS INSTALLED`,"color: green; font-weight: bold","");
+console.info(`%cXIAOMI-MIOT CARD v0.0.22 IS INSTALLED`,"color: green; font-weight: bold","");
