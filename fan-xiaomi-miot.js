@@ -485,7 +485,8 @@ class fanXiaomiMiotCard extends LitElement {
         swing_left: {
           prop: {
             siid: 2,
-            aiid: 1
+            aiid: 1,
+            throw: false
           },
           value: true,
           icon: 'mdi:chevron-left',
@@ -493,7 +494,8 @@ class fanXiaomiMiotCard extends LitElement {
         swing_right: {
           prop: {
             siid: 2,
-            aiid: 2
+            aiid: 2,
+            throw: false
           },
           value: true,
           icon: 'mdi:chevron-right',
@@ -839,7 +841,6 @@ class fanXiaomiMiotCard extends LitElement {
       <input type="range" min="${min}" max="${max}" step="${step}" value="${val}">
     `;
     const inp = box.querySelector("input[type=range]");
-    
     inp.addEventListener("change", () => {
       // alert(this.value);
       // console.log('slider set value: ',inp.value);
@@ -935,13 +936,20 @@ class fanXiaomiMiotCard extends LitElement {
     if (typeof btn.prop == 'object') {
       if (typeof btn.prop.service != 'undefined') {
         this.hass.callService(btn.prop.service, btn.prop.service_value, btn.prop.data);
+      } else if (typeof btn.prop.aiid != 'undefined') {
+        if (typeof btn.prop.entity_id == 'undefined') {
+          btn.prop.entity_id = state.entity_id;
+        }
+        this.hass.callService('xiaomi_miot', "call_action", btn.prop);
       } else {
-        this.hass.callService('xiaomi_miot', "set_miot_property", {
-          entity_id: state.entity_id,
-          siid: btn.prop.siid,
-          piid: btn.prop.piid,
-          value: _value
-        });
+        if (typeof btn.prop.entity_id == 'undefined') {
+          btn.prop.entity_id = state.entity_id;
+        }
+        if (typeof btn.prop.value == 'undefined') {
+          btn.prop.value = btn.value;
+        }
+        console.log('btn.prop:', btn.prop);
+        this.hass.callService('xiaomi_miot', "set_miot_property", btn.prop);
       }
     } else {
       this.hass.callService('xiaomi_miot', "set_property", {
