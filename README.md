@@ -4,14 +4,14 @@
 
 ## 지원 장치
  * fan
-   * [```dmaker.fan.p220(p221)```](https://home.miot-spec.com/s/dmaker.fan.p220)
-   * [```dmaker.fan.p33```](https://home.miot-spec.com/s/dmaker.fan.p33) 
-   * [```dmaker.fan.p5```](https://home.miot-spec.com/s/dmaker.fan.p5) - 좌우 각도 이동 지원 안함
-   * [```zhimi.fan.za4```](https://home.miot-spec.com/s/zhimi.fan.za4) - 타이머 지원 안함
+   * [```dmaker.fan.p220(p221)```](https://home.miot-spec.com/spec/dmaker.fan.p220)
+   * [```dmaker.fan.p33```](https://home.miot-spec.com/spec/dmaker.fan.p33) 
+   * [```dmaker.fan.p5```](https://home.miot-spec.com/spec/dmaker.fan.p5) - 좌우 각도 이동 지원 안함
+   * [```zhimi.fan.za4```](https://home.miot-spec.com/spec/zhimi.fan.za4) - 타이머 지원 안함
  * heater
-   * [```zhimi.heater.za2```](https://home.miot-spec.com/s/zhimi.heater.za2)
+   * [```zhimi.heater.za2```](https://home.miot-spec.com/spec/zhimi.heater.za2)
  * humidifier
-   * [```deerma.humidifier.jsq2```](https://home.miot-spec.com/s/deerma.humidifier.jsq2)
+   * [```deerma.humidifier.jsq2g```](https://home.miot-spec.com/spec/deerma.humidifier.jsq2g), [```deerma.humidifier.jsq2w```](https://home.miot-spec.com/spec/deerma.humidifier.jsq2w)
  * dehumidifier
    * [```dmaker.derh.22l```](https://home.miot-spec.com/spec/dmaker.derh.22l)
  <br>
