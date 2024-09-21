@@ -1340,4 +1340,4 @@ class fanXiaomiMiotCard extends LitElement {
 
 }
 customElements.define("fanxiaomimiot-card", fanXiaomiMiotCard);
-console.info(`%cXIAOMI-MIOT CARD v0.0.23 IS INSTALLED`,"color: green; font-weight: bold","");
+console.info(`%cXIAOMI-MIOT CARD v0.0.24 IS INSTALLED`,"color: green; font-weight: bold","");
