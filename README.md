@@ -29,7 +29,7 @@ entity는 사용자 구성에 맞게 수정 해주셔야 합니다.
 ```
 type: custom:fanxiaomimiot-card
 entity: fan.dmaker_p220_72de_fan
-modle: dmaker.fan.p220
+model: dmaker_fan_p220
 ```
 ![image](https://user-images.githubusercontent.com/41262994/173026796-56a217eb-b1ab-4bde-9178-920794e66428.png)<br>
 ![dmaker.fan.p220](https://user-images.githubusercontent.com/41262994/174616733-31410f29-41a9-4aa7-99f2-c2c86dbd27d6.png)<br>
@@ -58,7 +58,7 @@ card_mod를 이용한 색상 변수를 사용할수 있습니다.
 ```
 type: custom:fanxiaomimiot-card
 entity: fan.dmaker_p220_72de_fan
-modle: dmaker_fan_p220
+model: dmaker_fan_p220
 hide_title: true
 card_mod:
   style: |
@@ -94,7 +94,7 @@ card_mod 설정 예: 타이틀과 온도 켜기끄기 라인을 완전히 쉼기
 ```
 type: custom:fanxiaomimiot-card
 entity: fan.dmaker_p220_72de_fan
-modle: dmaker_fan_p220
+model: dmaker_fan_p220
 card_mod:
   style: |
     :host {
