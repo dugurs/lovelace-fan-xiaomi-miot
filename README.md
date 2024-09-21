@@ -8,7 +8,7 @@
    * [```dmaker.fan.p33```](https://home.miot-spec.com/spec/dmaker.fan.p33)
    * [```dmaker.fan.p45```](https://home.miot-spec.com/spec/dmaker.fan.p45) 
    * [```dmaker.fan.p5```](https://home.miot-spec.com/spec/dmaker.fan.p5) - 좌우 각도 이동 지원 안함
-      * [```zhimi.fan.za4```](https://home.miot-spec.com/spec/zhimi.fan.za4) - 타이머 지원 안함
+   * [```zhimi.fan.za4```](https://home.miot-spec.com/spec/zhimi.fan.za4) - 타이머 지원 안함
    
  * heater
    * [```zhimi.heater.za2```](https://home.miot-spec.com/spec/zhimi.heater.za2)
