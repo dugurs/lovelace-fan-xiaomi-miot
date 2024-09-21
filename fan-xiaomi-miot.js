@@ -324,6 +324,109 @@ class fanXiaomiMiotCard extends LitElement {
           icon: ['mdi:lock-open-variant','mdi:lock-open']
         },
       },
+      
+      dmaker_fan_p45: {
+        power: {
+          prop: 'fan.on',
+          value: false,
+          state: ['off', 'on'],
+          icon: 'mdi:fan',
+          label: 'dm_service.speed_level'
+        },
+        down: {
+          prop: 'dm_service.speed_level',
+          value: 1,
+          min: 1,
+          max: 100,
+          step: this.config.percentage_step ?? 25,
+          icon: 'mdi:chevron-down',
+          backward: true
+        },
+        up: {
+          prop: 'dm_service.speed_level',
+          value: 1,
+          min: 1,
+          max: 100,
+          step: this.config.percentage_step ?? 25,
+          icon: 'mdi:chevron-up',
+        },
+        slider: {
+          prop: 'dm_service.speed_level',
+          value: 1,
+          min: 1,
+          max: 100,
+          step: 1
+        },
+        mode: {
+          prop: 'fan.mode',
+          value: [0,1,2],
+          state: ['Straight Wind', 'Natural Wind', 'Sleep'],
+          icon: ['mdi:weather-windy', 'mdi:leaf', 'mdi:power-sleep']
+        },
+        off_delay_time: {
+          prop: 'off_delay_time',
+          value: this.config.off_delay_time ?? [0,30,60,120,180,240,300,360,420,480],
+          icon: 'mdi:camera-timer'
+        },
+        hswing: {
+          prop: 'fan.horizontal_swing',
+          value: false,
+          state: ['off', 'on'],
+          icon: 'mdi:arrow-left-right'
+        },
+        hswing_angle: {
+          prop: 'horizontal_swing_included_angle-2-5',
+          value: [30,60,90,120,150],
+          icon: 'mdi:arrow-left-right',
+        },
+        swing_left: {
+          // prop: {
+          //   service: 'select',
+          //   service_value: 'select_option',
+          //   data: {
+          //     entity_id: this.config.entity.replace(/^fan\./i, 'number.').replace(/_fan$/i, '_horizontal_angle'),
+          //     option: '-7'
+          //   }
+          // },
+          prop: {
+            siid: 2,
+            aiid: 2,
+            throw: false
+          },
+          value: true,
+          icon: 'mdi:chevron-left',
+        },
+        swing_right: {
+          // prop: {
+          //   service: 'select',
+          //   service_value: 'select_option',
+          //   data: {
+          //     entity_id: this.config.entity.replace(/^fan\./i, 'number.').replace(/_fan$/i, '_horizontal_angle'),
+          //     option: '7'
+          //   }
+          // },
+          prop: {
+            siid: 2,
+            aiid: 3,
+            throw: false
+          },
+          value: true,
+          icon: 'mdi:chevron-right',
+        },
+        alarm: {
+          prop: 'alarm',
+          value: false,
+          state: ['off', 'on'],
+          icon: ['mdi:volume-off','mdi:volume-high']
+        },
+        locked: {
+          prop: 'physical_controls_locked',
+          value: false,
+          state: ['off', 'on'],
+          icon: ['mdi:lock-open-variant','mdi:lock-open']
+        },
+      },
+      
       dmaker_fan_p5: {
         power: {
           prop: 'fan.on',
@@ -1003,6 +1106,10 @@ class fanXiaomiMiotCard extends LitElement {
         grid-template-columns: var(--card--grid-columns, repeat(6, 1fr));
         grid-template-areas: var(--card--grid-areas, "p n n n n n" "s hs ha o m a");
       }
+      ha-card.dmaker_fan_p45 {
+        grid-template-columns: var(--card--grid-columns, repeat(6, 1fr));
+        grid-template-areas: var(--card--grid-areas, "p n n n n n" "s hs ha o m a");
+      }  
       ha-card.zhimi_fan_za4 {
         grid-template-columns: var(--card--grid-columns, repeat(5, 1fr));
         grid-template-areas: var(--card--grid-areas, "p n n n n" "s hs ha m a");
@@ -1233,4 +1340,4 @@ class fanXiaomiMiotCard extends LitElement {
 
 }
 customElements.define("fanxiaomimiot-card", fanXiaomiMiotCard);
-console.info(`%cXIAOMI-MIOT CARD v0.0.23 IS INSTALLED`,"color: green; font-weight: bold","");
+console.info(`%cXIAOMI-MIOT CARD v0.0.24 IS INSTALLED`,"color: green; font-weight: bold","");
