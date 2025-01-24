@@ -7,7 +7,7 @@
    * [```dmaker.fan.p220(p221)```](https://home.miot-spec.com/spec/dmaker.fan.p220)
    * [```dmaker.fan.p33```](https://home.miot-spec.com/spec/dmaker.fan.p33)
    * [```dmaker.fan.p45```](https://home.miot-spec.com/spec/dmaker.fan.p45) 
-   * [```dmaker.fan.p5```](https://home.miot-spec.com/spec/dmaker.fan.p5) - 좌우 각도 이동 지원 안함
+   * [```dmaker.fan.p5```](https://home.miot-spec.com/spec/dmaker.fan.p5)
    * [```zhimi.fan.za4```](https://home.miot-spec.com/spec/zhimi.fan.za4) - 타이머 지원 안함
    
  * heater
@@ -50,6 +50,41 @@ model: dmaker_fan_p220
 | model | dmaker_fan_p33, dmaker_fan_p45, dmaker_fan_p5, zhimi_heater_za2, deerma_humidifier_jsq2w, deerma_humidifier_jsq2g, ... | dmaker_fan_p220 | 모델을 설정 합니다. |
 * dmaker.fan.p221은 dmaker_fan_p220로 model 설정 하세요.
 * dmaker.fan.p33은 테스트되지 않아 오작동 할 수 있습니다.
+
+
+## model 추가 설명
+```
+  off_delay_time: {
+    prop: {
+      entity_id: this.config.entity.replace(/^fan\./i, 'number.').replace(/_fan$/i, '_off_delay_time'),
+      siid: 3,
+      piid: 1
+    },
+    value: [0,30,60,120,180,240,300,360,420,480],
+    icon: 'mdi:camera-timer'
+  }
+```
+#값 가져오기 
+  - prop 가 문자열이면
+    - button info 엔터터에서 속성정보를 가져옴.
+  - prop.entity_id 가 설정되어있으면, 
+    - prop.entity_id의 state를 읽어옴
+  - prop에 siid, piid만 있으면 
+    - 값은 읽어오지 못함, 
+    - 토글시 xiaomi_miot.set_miot_property 서비스 실행, 값은 value 로 전달하는데 step가 더하기 적용, backward가 true면 빼기, step가 0이면 그대로
+#토글시
+  - prop entity_id 만 설졍되어 있으면 entity_id변경
+  - siid 가 있으면 xiaomi_miot.set_miot_property 서비스 실행
+  - service 가 있으면 service 실행
+  - 전달 값은
+    - step이 있으면 더하기 적용, backward가 true면 빼기, step 0 설정이 있으면 value 전달
+    - value가 배열이면 순차 전달
+#기타
+  - state 배열설정은 value 배열과 같이 설정 한느데, 읽은 값에 index적용해 문자열로 표시핼때 필요
+  - icon 문자열로 설정하면 아이콘 고정, 배열로 설정하면 값에 index적용
+  - click ''설정시 토글 안됨.
+
+
 
 
 ## card-mod

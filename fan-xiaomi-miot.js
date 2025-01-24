@@ -80,7 +80,7 @@ class fanXiaomiMiotCard extends LitElement {
           value: 1,
           min: 1,
           max: 100,
-          step: 1
+          step: this.config.percentage_step ?? 1
         },
         mode: {
           prop: 'fan.mode',
@@ -295,7 +295,7 @@ class fanXiaomiMiotCard extends LitElement {
           value: 1,
           min: 1,
           max: 100,
-          step: 1
+          step: this.config.percentage_step ?? 1
         },
         mode: {
           prop: 'fan.mode',
@@ -377,7 +377,7 @@ class fanXiaomiMiotCard extends LitElement {
           value: 1,
           min: 1,
           max: 100,
-          step: 1
+          step: this.config.percentage_step ?? 1
         },
         mode: {
           prop: 'fan.mode',
@@ -479,7 +479,7 @@ class fanXiaomiMiotCard extends LitElement {
           value: 1,
           min: 1,
           max: 100,
-          step: 1
+          step: this.config.percentage_step ?? 1
         },
         mode: {
           prop: 'fan.mode',
@@ -565,7 +565,7 @@ class fanXiaomiMiotCard extends LitElement {
           value: 1,
           min: 1,
           max: 100,
-          step: 1
+          step: this.config.percentage_step ?? 1
         },
         mode: {
           prop: 'fan.mode',
@@ -655,7 +655,7 @@ class fanXiaomiMiotCard extends LitElement {
           value: 1,
           min: 16,
           max: 28,
-          step: 1
+          step: this.config.percentage_step ?? 1
         },
         brightness: {
           prop: 'indicator_light.brightness',
@@ -723,7 +723,7 @@ class fanXiaomiMiotCard extends LitElement {
           value: 1,
           min: 40,
           max: 70,
-          step: 1
+          step: this.config.percentage_step ?? 1
         },
         fan_level: {
           prop: 'humidifier.fan_level',
@@ -807,7 +807,7 @@ class fanXiaomiMiotCard extends LitElement {
           value: 1,
           min: 30,
           max: 70,
-          step: 1
+          step: this.config.percentage_step ?? 1
         },
         mode: {
           prop: 'dehumidifier.mode',
@@ -861,8 +861,13 @@ class fanXiaomiMiotCard extends LitElement {
   render() {
     // console.log(this.config.entity);
     this.states = this.hass.states[this.config.entity];
-    this.states._attributes = Object.assign(this.hass.states[this.config.entity.replace(/^[^\.]+\./i, 'button.').replace(/_[^_]+$/i, '_info')].attributes, this.states.attributes);
     this.states.domain = this.config.entity.split('.')[0];
+    let info_entity_Id = this.config.entity;
+    if (this.states.domain == 'fan') {
+      info_entity_Id = info_entity_Id.replace(/_air_purifier$/i, '_fan');
+    }
+    info_entity_Id = info_entity_Id.replace(/^[^\.]+\./i, 'button.').replace(/_[^_]+$/i, '_info')
+    this.states._attributes = Object.assign(this.hass.states[info_entity_Id].attributes, this.states.attributes);
     this.states.prop_state = {};
     const stateStr = this.states ? this.states.state : 'unavailable';
     const model = this.config.model ?? 'dmaker_fan_p220';
@@ -1080,7 +1085,7 @@ class fanXiaomiMiotCard extends LitElement {
     }
 
     if (typeof btn.valueCalc != 'undefined') {
-      _value = calculateEquation(`${value} ${btn.valueCalc}`);
+      _value = this.calculateEquation(`${value} ${btn.valueCalc}`);
     }
     // console.log('setStateNo: ', btn._state, '->', _value);
     btn._state = _value;
@@ -1593,4 +1598,4 @@ class fanXiaomiMiotCard extends LitElement {
 
 }
 customElements.define("fanxiaomimiot-card", fanXiaomiMiotCard);
-console.info(`%cXIAOMI-MIOT CARD v0.0.25 IS INSTALLED`,"color: green; font-weight: bold","");
+console.info(`%cXIAOMI-MIOT CARD v0.0.26 IS INSTALLED`,"color: green; font-weight: bold","");
