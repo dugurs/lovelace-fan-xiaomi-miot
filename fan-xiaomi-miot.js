@@ -1007,24 +1007,28 @@ class fanXiaomiMiotCard extends LitElement {
       const entity_id = this.states.entity_id;
       const hacard = this.hacard;
       // long click
-      box.addEventListener("mouseup", (e) => {
-        clearTimeout(pressTimer);
-        // Clear timeout
-        return false;
+      ['mouseup', 'touchend'].forEach((eventType) => {
+        box.addEventListener(eventType, (e) => {
+          clearTimeout(pressTimer);
+          // Clear timeout
+          return false;
+        });
       });
-      box.addEventListener("mousedown", (e) => {
-        // Set timeout
-        pressTimer = window.setTimeout(function() {
-          const event = new Event('hass-more-info', {
-            bubbles: true,
-            cancelable: false,
-            composed: true
-          });
-          event.detail = { entityId: entity_id };
-          hacard.shadowRoot.dispatchEvent(event);
-          return event;
-        },1000);
-        return false; 
+      ['mousedown', 'touchstart'].forEach((eventType) => {
+        box.addEventListener(eventType, (e) => {
+          // Set timeout
+          pressTimer = window.setTimeout(function() {
+            const event = new Event('hass-more-info', {
+              bubbles: true,
+              cancelable: false,
+              composed: true
+            });
+            event.detail = { entityId: entity_id };
+            hacard.shadowRoot.dispatchEvent(event);
+            return event;
+          },600);
+          return false; 
+        });
       });
     }
     if (btn._disabled === false && btn.click != '') {
