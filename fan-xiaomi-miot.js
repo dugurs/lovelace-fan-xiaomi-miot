@@ -934,23 +934,23 @@ class fanXiaomiMiotCard extends LitElement {
       <input type="range" min="${min}" max="${max}" step="${step}" value="${val}">
     `;
     const inp = box.querySelector("input[type=range]");
-    inp.addEventListener("mouseup", () => {
-      // console.log('slider set value: ',inp.value);
-      if (btn.prop == 'percentage') {
+    const handleSliderChange = () => {
+      if (btn.prop === 'percentage') {
         switch (this.states.domain) {
-          case 'fan' :
+          case 'fan':
             this.hass.callService("fan", "set_percentage", {
               entity_id: this.states.entity_id,
               percentage: Number(inp.value)
             });
             break;
-          case 'humidifier' :
+          case 'humidifier':
             this.hass.callService("humidifier", "set_humidity", {
               entity_id: this.states.entity_id,
               humidity: Number(inp.value)
             });
             break;
         }
+
         const labels = this.hacard.querySelector('.u_percentage');
         if (labels !== null) {
           labels.textContent = inp.value;
@@ -958,7 +958,12 @@ class fanXiaomiMiotCard extends LitElement {
       } else {
         this._toggle('click', btn, Number(inp.value));
       }
-    });
+    };
+    // PC 마우스 환경
+    inp.addEventListener("mouseup", handleSliderChange);
+    // 모바일 터치 환경
+    inp.addEventListener("touchend", handleSliderChange);
+
     return box;
   }
 
